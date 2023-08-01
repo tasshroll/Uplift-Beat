@@ -16,7 +16,7 @@ Mario Inzuna
 
 # User Interface
 
-![alt text]([https://github.com/ethandanielsmall/jolly-journal/blob/main/image.jpg?raw=true](https://github.com/ethandanielsmall/jolly-journal/blob/main/client/public/images/project%203%20-%20main%20page.png)https://github.com/ethandanielsmall/jolly-journal/blob/main/client/public/images/project%203%20-%20main%20page.png)
+![alt text](https://github.com/ethandanielsmall/jolly-journal/blob/main/client/public/images/project%203%20-%20main%20page.png?raw=true)
 
 [![License](https://img.shields.io/badge/License-n/a-n/a.svg)](n/a)
 
