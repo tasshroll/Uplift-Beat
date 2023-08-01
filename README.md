@@ -18,6 +18,7 @@ Mario Inzuna
 
 ![main landing](https://github.com/ethandanielsmall/jolly-journal/blob/main/client/public/images/project%203%20-%20main%20page.png?raw=true)
 ![read later](![image](https://github.com/ethandanielsmall/jolly-journal/assets/124843114/f1890398-7ff5-4483-a510-8ea44a7345ee)
+)
 ![saved articles](![image](https://github.com/ethandanielsmall/jolly-journal/assets/124843114/645dbcad-a718-4b43-b070-498e6a949622)
 )
 ![login/signup page](![image](https://github.com/ethandanielsmall/jolly-journal/assets/124843114/65f81cec-dbac-4708-84aa-74cdb600de75)
