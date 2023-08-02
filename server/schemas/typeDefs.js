@@ -1,7 +1,5 @@
 const { gql } = require('apollo-server-express');
 
-// these typeDefs match the mongo models in ./models
-// these are the objects that are returned when a user makes a query
 const typeDefs = gql`
 
 type User {
