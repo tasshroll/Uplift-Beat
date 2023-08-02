@@ -1,9 +1,5 @@
 const { gql } = require('apollo-server-express');
 
-// these typeDefs match the mongo models in ./models
-// these are the objects that are returned when a user makes a query
-// ArticleInfo is used to pass data into our saveArticle mutation
-
 const typeDefs = gql`
 
 type User {
