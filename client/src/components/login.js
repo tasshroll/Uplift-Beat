@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
 
 const LoginForm = () => {
-    const [loginInfo, setLoginInfo] = useState({ email: '', password: '' });
+    const [userFormInfo, setUserFormInfo] = useState({ email: '', password: '' });
     const [validated, setValidated] = useState(false);
     const [showAlert, setShowAlert] = useState(false);
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
-        setLoginInfo(prevState => ({ ...prevState, [name]: value }));
-    };
+        setUserFormInfo({ ...userFormInfo, [name]: value });
+      };
 
     const handleFormSubmit = async (event) => {
         event.preventDefault();
@@ -20,7 +20,7 @@ const LoginForm = () => {
             setValidated(true);
         } else {
             try {
-                const response = await loginUser(loginInfo);
+                const response = await loginUser(userFormInfo);
       
                 if (!response.ok) {
                   throw new Error('there was an error logging you in');
@@ -53,7 +53,7 @@ const LoginForm = () => {
                     placeholder='Your email'
                     name='email'
                     onChange={handleInputChange}
-                    value={loginInfo.email}
+                    value={userFormInfo.email}
                     required
                 />
                 <Form.Control.Feedback type='invalid'>Email is required!</Form.Control.Feedback>
@@ -66,14 +66,14 @@ const LoginForm = () => {
                     placeholder='Your password'
                     name='password'
                     onChange={handleInputChange}
-                    value={loginInfo.password}
+                    value={userFormInfo.password}
                     required
                 />
                 <Form.Control.Feedback type='invalid'>Password is required!</Form.Control.Feedback>
             </Form.Group>
 
             <Button
-                disabled={!(loginInfo.email && loginInfo.password)}
+                disabled={!(userFormInfo.email && userFormInfo.password)}
                 type='submit'
                 variant='success'>
                 Submit
