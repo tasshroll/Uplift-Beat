@@ -18,8 +18,28 @@ type Article {
     link : String
     }
 
+type Auth {
+    token : ID
+    user : User
+    }
+
+input ArticleInfo {
+    description : String, 
+    title : String, 
+    articleId : String, 
+    image: String, 
+    link: String
+    }
+
 type Query {
     me: User
+    }
+
+type Mutation {
+    login (email : String, password : String) : Auth
+    addUser(username : String, email: String, password: String) : Auth
+    saveArticle(articleData: ArticleInfo!): User
+    removeArticle(articleId : ID) : User
     }
 `;
 
