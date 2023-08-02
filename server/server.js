@@ -8,28 +8,22 @@ const { authMiddleware } = require('./utils/auth');
 const server = new ApolloServer({ 
   typeDefs,
   resolvers,
-  // Pass function authMiddleware to resolvers so context is made available
-  // to all resolvers to access the user data if the user is logged in
   context: authMiddleware, 
 });
 const PORT = process.env.PORT || 3001;
 const app = express();
 
-// apply middleware to our server to encode url data and json data
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// if we're in production, serve client/build as static assets
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../client/build')));
 }
 
-// two routes for handling client-side requests for the index.html file
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, '../client/build/index.html'));
 });
 
-// Create new instance of an Apollo server with the GraphQL schema
 const startApolloServer = async (typeDefs, resolvers) => { 
   await server.start();
   server.applyMiddleware({ app });
