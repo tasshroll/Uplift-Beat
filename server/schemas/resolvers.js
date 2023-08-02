@@ -18,6 +18,32 @@ const resolvers = {
             throw new AuthenticationError('You need to be logged in!');
         },
     },
+    Mutation: {
+        login: async (parent, { email, password }) => {
+            const user = await User.findOne({ email });
+
+            if (!user) {
+                throw new AuthenticationError('No user with this userame found!');
+            }
+            // isCorrectPassword is a method defined in the User model
+            const correctPw = await user.isCorrectPassword(password);
+
+            if (!correctPw) {
+                throw new AuthenticationError('Incorrect password');
+            }
+
+            const token = signToken(user);
+            return { token, user };
+        },
+        // args represents the params and the req.body of the query
+        // args holds the username, email, and password of the user
+        addUser: async (parent, args) => {
+            const user = await User.create(args);
+            const token = signToken(user);
+            return { token, user }
+        },
+
+    },
 };
 
 module.exports = resolvers;
