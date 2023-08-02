@@ -46,7 +46,7 @@ const LoginForm = () => {
               Something went wrong with your login credentials!
             </Alert>
 
-            <Form.Group className='mb-3'>
+            <Form.Group>
                 <Form.Label htmlFor='email'>Email</Form.Label>
                 <Form.Control
                     type='text'
