@@ -20,7 +20,6 @@ const handleFormSubmit = async (event) => {
 
     setUserFormData({
       username: '',
-      email: '',
       password: '',
     });
 };
