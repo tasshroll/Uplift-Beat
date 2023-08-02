@@ -42,6 +42,7 @@ const resolvers = {
             const token = signToken(user);
             return { token, user }
         },
+
         saveArticle: async (parent, { articleData }, context) => {
             if (context.user) {
                 const updatedUser = await User.findByIdAndUpdate(
@@ -53,12 +54,10 @@ const resolvers = {
                     { new: true }
                 );
                 return updatedUser;
-
+        
             }
-
-            throw new AuthenticationError('You need to be logged in!');
+        
         },
-
     },
 };
 
