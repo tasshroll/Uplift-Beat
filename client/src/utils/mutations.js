@@ -32,6 +32,7 @@ export const SAVE_ARTICLE = gql`
       _id
       username
       email
+      articleCount
       savedBArticles {
         articleId
         description
@@ -44,8 +45,8 @@ export const SAVE_ARTICLE = gql`
 `;
 
 export const REMOVE_ARTICLE = gql`
-  mutation deleteArticle($articleId: ID!) {
-    deleteArticle(articleId: $articleId) {
+  mutation removeArticle($articleId: ID!) {
+    removeArticle(articleId: $articleId) {
       _id
       username
       email
