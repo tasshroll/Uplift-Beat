@@ -33,7 +33,7 @@ export const SAVE_ARTICLE = gql`
       username
       email
       articleCount
-      savedBArticles {
+      savedArticles {
         articleId
         description
         title
