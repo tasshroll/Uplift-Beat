@@ -3,7 +3,7 @@ const newsapi = new NewsAPI('insertKeyHere');
 
 const router = require('express').Router();
 
-async function fetchTechnologyNewsSources() {
+async function fetchNews() {
   try {
     const response = await newsapi.v2.sources({
       category: 'technology',
@@ -18,7 +18,7 @@ async function fetchTechnologyNewsSources() {
 }
 
 router.get('/technology-news-sources', async (req, res) => {
-  const newsSources = await fetchTechnologyNewsSources();
+  const newsSources = await fetchNews();
   res.json(newsSources);
 });
 
