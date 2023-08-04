@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "dot-env": "^0.0.1",
+    "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "newsapi": "^2.4.1",
     "react-router": "^6.14.2"
