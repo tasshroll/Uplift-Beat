@@ -12,6 +12,7 @@
 // export default App;
 
 import React from 'react';
+<<<<<<< HEAD
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { 
   ApolloClient,
@@ -50,6 +51,11 @@ const client = new ApolloClient({
   link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
 });
+=======
+import SearchArticles from './pages/SearchArticles';
+import SavedArticles from './pages/SavedArticles';
+import Navbar from './components/navbar.js';
+>>>>>>> 3b7ced02a7b719e4792bc68f12b6c6863b01caf9
 
 function App() {
   return (

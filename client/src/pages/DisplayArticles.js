@@ -13,7 +13,7 @@ import {
 import Auth from '../utils/auth';
 import { fetchNews } from '../utils/API';
 import { saveArticleIds, getSavedArticleIds } from '../utils/localStorage';
-import { SAVE_ARTICLES } from '../utils/mutations';
+import { SAVE_ARTICLE } from '../utils/mutations';
 
 
 const DisplayArticles = () => {
@@ -28,7 +28,7 @@ const DisplayArticles = () => {
     return () => saveArticleIds(savedArticleIds);
   });
 
-  const [saveArticle] = useMutation(SAVE_ARTICLES); 
+  const [saveArticle] = useMutation(SAVE_ARTICLE); 
 
   // method to search for books and set state on form submit
   const displayNews = async (event) => {

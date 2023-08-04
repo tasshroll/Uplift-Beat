@@ -20,7 +20,7 @@ const AppNavbar = () => {
           <Navbar.Collapse id='navbar' className='d-flex flex-row-reverse'>
             <Nav className='ml-auto d-flex'>
               <Nav.Link as={Link} to='/'>
-                Search For Articles
+                Articles
               </Nav.Link>
               {/* if user is logged in show saved articles and logout */}
               {Auth.loggedIn() ? (
