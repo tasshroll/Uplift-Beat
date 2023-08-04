@@ -11,40 +11,28 @@ import {
 } from 'react-bootstrap';
 
 import Auth from '../utils/auth';
-//import { saveArticle, searchGoogleBooks } from '../utils/API';
 import { fetchNews } from '../utils/API';
-
 import { saveArticleIds, getSavedArticleIds } from '../utils/localStorage';
-// query needed for apollo server
 import { SAVE_ARTICLES } from '../utils/mutations';
 
 
-const SearchArticles = () => {
-  // create state for holding returned news api data
-  const [searchedArticles, setsearchedArticles] = useState([]);
-  // create state for holding our search field data
-  const [searchInput, setSearchInput] = useState('');
+const DisplayArticles = () => {
+  // state for holding returned news api data
+  const [newsArticles, setnewsArticles] = useState([]);
 
-  // create state to hold saved articleId values
+  // state to hold saved articleId values
   const [savedArticleIds, setsavedArticleIds] = useState(getSavedArticleIds());
 
-  // set up useEffect hook to save `savedArticleIds` list to localStorage on component unmount
-  // learn more here: https://reactjs.org/docs/hooks-effect.html#effects-with-cleanup
+  // useEffect hook to save `savedArticleIds` list to localStorage on component unmount
   useEffect(() => {
     return () => saveArticleIds(savedArticleIds);
   });
 
-  // Define the mutation hook
-  const [saveArticle] = useMutation(SAVE_ARTICLES);  // added
+  const [saveArticle] = useMutation(SAVE_ARTICLES); 
 
-
-  // create method to search for books and set state on form submit
+  // method to search for books and set state on form submit
   const displayNews = async (event) => {
     event.preventDefault();
-
-    if (!searchInput) {
-      return false;
-    }
 
     try {
       const response = await fetchNews();
@@ -54,6 +42,7 @@ const SearchArticles = () => {
       }
 
       const { items } = await response.json();
+      console.log("items is ", items);
 
       const newsData = items.map((news) => ({
         articleId: news.id,
@@ -62,9 +51,8 @@ const SearchArticles = () => {
         image: news.image?.thumbnail || '',
         link: news.link || '',  
       }));
-      // setsearchedArticles will update searchedArticles with a list of all retreived articles 
-      setsearchedArticles(newsData);
-      setSearchInput('');
+      // setnewsArticles will update newsArticles with a list of all retreived articles 
+      setnewsArticles(newsData);
     } catch (err) {
       console.error(err);
     }
@@ -81,8 +69,8 @@ const SearchArticles = () => {
 
   // create function to handle saving a book to our database
   const handlesaveArticle = async (articleId) => {
-    // find the article in `searchedArticles` state by the matching id
-    const articleToSave = searchedArticles.find((book) => article.articleId === articleId);
+    // find the article in `newsArticles` state by the matching id
+    const articleToSave = newsArticles.find((article) => article.articleId === articleId);
     console.log("articleToSave is ", articleToSave);
     // get token
     const token = Auth.loggedIn() ? Auth.getToken() : null;
@@ -93,7 +81,7 @@ const SearchArticles = () => {
 
     try {      
       // Execute the saveArticle mutation
-      const { data } = await saveArticle({ variables: { newsData: {...bookToSave} } }); 
+      const { data } = await saveArticle({ variables: { newsData: {...articleToSave} } }); 
 
 
       // if article successfully saves to user's account, save article id to state
@@ -113,14 +101,14 @@ const SearchArticles = () => {
 
       <Container>
         <h2 className='pt-5'>
-          {searchedArticles.length
-            ? `Viewing ${searchedArticles.length} results:`
+          {newsArticles.length
+            ? `Viewing ${newsArticles.length} results:`
             : 'Search for a book to begin'}
         </h2>
         <Row>
-          {searchedArticles.map((news) => {
+          {newsArticles.map((news) => {
             return (
-              <Col md="4" key={book.articleId}>
+              <Col md="4" key={news.articleId}>
                 <Card key={news.articleId} border='dark'>
                   {news.image ? (
                     <Card.Img src={news.image} alt={`The cover for ${news.title}`} variant='top' />
@@ -149,4 +137,4 @@ const SearchArticles = () => {
   );
 };
 
-export default SearchArticles;
+export default DisplayArticles;
