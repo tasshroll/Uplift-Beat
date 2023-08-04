@@ -1,5 +1,7 @@
 import React from 'react';
-import UncontrolledExample from './UncontrolledExample';
+import SearchArticles from './pages/SearchArticles';
+import SavedArticles from './pages/SavedArticles';
+import Navbar from './components/navbar.js';
 
 function App() {
   return (
