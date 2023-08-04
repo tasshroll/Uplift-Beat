@@ -11,7 +11,7 @@ import {
 } from 'react-bootstrap';
 
 import Auth from '../utils/auth';
-import { fetchNews } from '../utils/API';
+import  fetchNews from '../utils/API';
 import { saveArticleIds, getSavedArticleIds } from '../utils/localStorage';
 import { SAVE_ARTICLE } from '../utils/mutations';
 

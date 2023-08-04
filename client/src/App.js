@@ -23,7 +23,7 @@ import {
 import { setContext } from '@apollo/client/link/context'; 
 import DisplayArticles from './pages/DisplayArticles';
 import SavedArticles from './pages/SavedArticles';
-import navbar from './components/navbar';
+import AppNavbar from './components/navbar';
 
 
 // Construct main GraphQL API endpoint
@@ -56,7 +56,7 @@ function App() {
     <ApolloProvider client={client}> 
       <Router>
         <>
-          <navbar />
+          <AppNavbar />
           <Routes>
             <Route
               path='/'
