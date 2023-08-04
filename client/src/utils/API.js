@@ -1,28 +1,26 @@
-const NewsAPI = require('newsapi');
-const newsapi = new NewsAPI('insertKeyHere');
-
-const router = require('express').Router();
+const fetch = require('node-fetch');
+require('dotenv').config(); // Load environment variables from .env file
+const NEWS_API_KEY = process.env.NEWS_API_KEY;
 
 async function fetchNews() {
   try {
-    const response = await newsapi.v2.sources({
-      category: 'technology',
-      language: 'en',
-      country: 'us'
-    });
-    return response;
+    const response = await fetch(`https://newsapi.org/v2/top-headlines?country=us&technology=health&apiKey=${NEWS_API_KEY}`);
+    const data = await response.json();
+    // Extract the desired fields from the articles
+    const articles = data.articles.map(article => ({
+      articleId: article.source.id || article.source.name,
+      description: article.description,
+      image: article.urlToImage,
+      link: article.url,
+      title: article.title,
+    }));
+
+    return articles;
+
   } catch (error) {
-    console.error('Error fetching news sources:', error);
-    return { status: 'error', message: 'Failed to fetch news sources' };
+    console.error('Error fetching news:', error);
+    throw new Error('Error fetching news');
   }
 }
 
-router.get('/technology-news-sources', async (req, res) => {
-  const newsSources = await fetchNews();
-  res.json(newsSources);
-});
-
-const userRoutes = require('./userRoutes');
-router.use('/users', userRoutes);
-
-module.exports = router;
+module.exports = fetchNews;
