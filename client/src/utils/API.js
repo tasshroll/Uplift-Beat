@@ -1,5 +1,5 @@
 const fetch = require('node-fetch');
-require('dotenv').config(); // Load environment variables from .env file
+//require('dotenv').config(); // Load environment variables from .env file
 const NEWS_API_KEY = process.env.NEWS_API_KEY;
 
 async function fetchNews() {
@@ -22,5 +22,4 @@ async function fetchNews() {
     throw new Error('Error fetching news');
   }
 }
-
-module.exports = fetchNews;
+export default fetchNews;
