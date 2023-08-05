@@ -73,7 +73,9 @@ const DisplayArticles = () => {
 
 
     // create function to handle saving an article to our database
-    const handlesaveArticle = async (articleId) => {
+    const handlesaveArticle = async (event, articleId) => {
+        //event.preventDefault(); // Prevent the default link following behavior
+        console.log("articleId to save is ", articleId);
         // find the article in `newsArticles` state by the matching id
         const articleToSave = articles.find((article) => article.articleId === articleId);
         console.log("articleToSave is ", articleToSave);
@@ -94,7 +96,12 @@ const DisplayArticles = () => {
             console.error(err);
         }
     };
-
+    
+    // When user clicks Save Article, call handlesaveArticle function to save article
+    const handleSaveButtonClick = (event, articleId) => {
+        event.preventDefault(); 
+        handlesaveArticle(articleId); 
+    };
     return (
         <>
             <div className="text-light bg-dark p-5">
@@ -125,7 +132,7 @@ const DisplayArticles = () => {
                                                 <Button
                                                     disabled={savedArticleIds?.some((savedArticleId) => savedArticleId === news.articleId)}
                                                     className='btn-block btn-info'
-                                                    onClick={() => handlesaveArticle(news.articleId)}>
+                                                    onClick={(event) => handleSaveButtonClick(event, news.articleId)}>
                                                     {savedArticleIds?.some((savedArticleId) => savedArticleId === news.articleId)
                                                         ? 'This article has already been saved!'
                                                         : 'Save Article!'}
