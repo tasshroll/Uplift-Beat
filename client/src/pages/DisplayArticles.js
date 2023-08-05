@@ -73,7 +73,7 @@ const DisplayArticles = () => {
 
 
     // create function to handle saving an article to our database
-    const handlesaveArticle = async (event, articleId) => {
+    const handlesaveArticle = async (articleId) => {
         //event.preventDefault(); // Prevent the default link following behavior
         console.log("articleId to save is ", articleId);
         // find the article in `newsArticles` state by the matching id
@@ -88,7 +88,7 @@ const DisplayArticles = () => {
 
         try {
             // Execute the saveArticle mutation
-            const { data } = await saveArticle({ variables: { newsData: { ...articleToSave } } });
+            const { data } = await saveArticle({ variables: { articleData: { ...articleToSave } } });
             console.log("data is ", data);
             // if article successfully saves to user's account, save article id to state
             setsavedArticleIds([...savedArticleIds, articleToSave.articleId]);
@@ -100,6 +100,7 @@ const DisplayArticles = () => {
     // When user clicks Save Article, call handlesaveArticle function to save article
     const handleSaveButtonClick = (event, articleId) => {
         event.preventDefault(); 
+        console.log({articleId})
         handlesaveArticle(articleId); 
     };
     return (

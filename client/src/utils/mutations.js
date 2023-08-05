@@ -27,7 +27,7 @@ export const ADD_USER = gql`
 `;
 
 export const SAVE_ARTICLE = gql`
-  mutation saveArticle($articleData: articleInput!) {
+  mutation saveArticle($articleData: ArticleInfo!) {
     saveArticle(articleData: $articleData) {
       _id
       username
