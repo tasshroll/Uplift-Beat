@@ -11,7 +11,6 @@ const AppNavbar = () => {
 
   return (
     <>
-      <p>AppNavbar is running</p>
       <Navbar bg='dark' variant='dark' expand='lg'>
         <Container fluid>
           <Navbar.Brand as={Link} to='/'>
