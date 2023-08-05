@@ -4,8 +4,9 @@ const { v4: uuidv4 } = require('uuid');
 // const dotenv = require('dotenv');
 // dotenv.config(); // Load environment variables from .env file
 // const NEWS_API_KEY = process.env.NEWS_API_KEY;
-// const NEWS_API_KEY = '8895df928ce54f47a6f3704c59088f8d'; // Tifni
-const NEWS_API_KEY = 'b1677e5088e343cabbe699e7ac5f9ab1';
+//const NEWS_API_KEY = '8895df928ce54f47a6f3704c59088f8d'; // Tifni
+// const NEWS_API_KEY = 'b1677e5088e343cabbe699e7ac5f9ab1';
+const NEWS_API_KEY = 'fa64ff879fa04ffbbc9c279324c2eb18';
 async function fetchNews(offset) {
   try {
     const response = await fetch(`https://newsapi.org/v2/top-headlines?country=us&technology=health&apiKey=${NEWS_API_KEY}&pageSize=20&page=${offset}`);
