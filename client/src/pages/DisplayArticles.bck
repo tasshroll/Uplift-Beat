@@ -10,14 +10,14 @@ import {
 } from 'react-bootstrap';
 
 import Auth from '../utils/auth';
-import fetchNews from '../utils/API';
+import  fetchNews from '../utils/API';
 import { saveArticleIds, getSavedArticleIds } from '../utils/localStorage';
 import { SAVE_ARTICLE } from '../utils/mutations';
 
 
 const DisplayArticles = () => {
     // state for holding returned news api data
-    // const [newsArticles, setnewsArticles] = useState([]);
+    const [newsArticles, setnewsArticles] = useState([]);
 
     // state to hold saved articleId values
     const [savedArticleIds, setsavedArticleIds] = useState(getSavedArticleIds());
@@ -30,51 +30,62 @@ const DisplayArticles = () => {
     const [saveArticle] = useMutation(SAVE_ARTICLE);
 
 
-    // for fetching news articles with offset - loading more articles
-    const [articles, setArticles] = useState([]);
-    const [offset, setOffset] = useState(0);
-    const [isLoading, setIsLoading] = useState(false);
-
-    const fetchNextArticles = () => {
-        setIsLoading(true);
-
-        // Fetch 20 articles - offset param allows us to get different sets of articles
-        fetchNews(offset)
-            .then((items) => {
-                const newsData = items.map((news) => ({
-                    articleId: news.articleId,
-                    title: news.title,
-                    description: news.description,
-                    image: news.image || '',
-                    link: news.link || '',
-                }));
-
-                // Append the new articles to the existing articles state
-                setArticles((prevArticles) => [...prevArticles, ...newsData]);
-                setOffset((prevOffset) => prevOffset + 20);
-                setIsLoading(false);
-            })
-            .catch((err) => {
-                console.error(err);
-                setIsLoading(false);
-            });
-    };
-
-    // useEffect(() => {
-    //     // Fetch the initial 20 articles when the component mounts
-    //     fetchNextArticles();
-    // }, []); // The empty dependency array ensures this effect runs only once
-    useEffect(() => {
-        // Fetch the initial 20 articles when the component mounts
-        fetchNextArticles();
-      }, []);
 
 
+    // method to search for articles and set state on form submit
+    // const displayNews = async (event) => {
+
+    // try {
+    //     const response = await fetchNews();
+
+    //     if (!response.ok) {
+    //         throw new Error('something went wrong!');
+    //     }
+
+    //     const items = await response.json();
+    //     console.log("items is ", items);
+
+    //     const newsData = items.map((news) => ({
+    //         articleId: news.id,
+    //         title: news.title,
+    //         description: news.description,
+    //         image: news.image?.thumbnail || '',
+    //         link: news.link || '',
+    //     }));
+    //     // setnewsArticles will update newsArticles with a list of all retreived articles 
+    //     setnewsArticles(newsData);
+    // } catch (err) {
+    //     console.error(err);
+    // }
+    // };
+    const displayNews = () => {
+        fetchNews()
+          .then((items) => {
+            console.log("items is ", items);
+            const newsData = items.map((news) => ({
+              articleId: news.articleId,
+              title: news.title,
+              description: news.description,
+              image: news.image || '',
+              link: news.link || '',
+            }));
+            setnewsArticles(newsData);
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+      };
+      
+      // Call the function to fetch and display news articles
+    
+      displayNews();
+        
+      
 
     // create function to handle saving an article to our database
     const handlesaveArticle = async (articleId) => {
         // find the article in `newsArticles` state by the matching id
-        const articleToSave = articles.find((article) => article.articleId === articleId);
+        const articleToSave = newsArticles.find((article) => article.articleId === articleId);
         console.log("articleToSave is ", articleToSave);
         // get token
         const token = Auth.loggedIn() ? Auth.getToken() : null;
@@ -104,12 +115,12 @@ const DisplayArticles = () => {
 
             <Container>
                 <h2 className='pt-5'>
-                    {articles.length
-                        ? `Viewing ${articles.length} results:`
+                    {newsArticles.length
+                        ? `Viewing ${newsArticles.length} results:`
                         : 'News is not available at this time. Please try again later.'}
                 </h2>
                 <Row>
-                    {articles.map((news) => {
+                    {newsArticles.map((news) => {
                         return (
                             <Col md="4" key={news.articleId}>
                                 <Card key={news.articleId} border='dark'>
@@ -135,17 +146,6 @@ const DisplayArticles = () => {
                         );
                     })}
                 </Row>
-                {isLoading ? (
-                    <p>Loading...</p>
-                ) : (
-                    <Button
-                        onClick={fetchNextArticles}
-                        disabled={isLoading}
-                        className='btn-block btn-info'
-                    >
-                        Load More
-                    </Button>
-                )}
             </Container>
         </>
     );
