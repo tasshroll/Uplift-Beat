@@ -117,7 +117,7 @@ const DisplayArticles = () => {
                                     {news.image ? (
                                         <Card.Img src={news.image} alt={`The cover for ${news.title}`} variant='top' />
                                     ) : null}
-                                    <Link href={news.link} target="_blank" rel="noreferrer">
+                                    <a href={news.link} target="_blank" rel="noreferrer">
                                         <Card.Body>
                                             <Card.Title>{news.title}</Card.Title>
                                             <Card.Text>{news.description}</Card.Text>
@@ -132,7 +132,7 @@ const DisplayArticles = () => {
                                                 </Button>
                                             )}
                                         </Card.Body>
-                                    </Link>
+                                    </a>
                                 </Card>
                             </Col>
                         );
