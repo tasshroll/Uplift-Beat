@@ -1,33 +1,21 @@
-// import React from 'react';
-// import UncontrolledExample from './UncontrolledExample';
-
-// function App() {
-//   return (
-//     <div>
-//       <UncontrolledExample />
-//     </div>
-//   );
-// }
-
-// export default App;
-
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { 
+
+import {
   ApolloClient,
   InMemoryCache,
   ApolloProvider,
   createHttpLink,
-} from '@apollo/client'; 
+} from '@apollo/client';
 
-import { setContext } from '@apollo/client/link/context'; 
+import { setContext } from '@apollo/client/link/context';
 import DisplayArticles from './pages/DisplayArticles';
 import SavedArticles from './pages/SavedArticles';
 import AppNavbar from './components/navbar';
 
 
 // Construct main GraphQL API endpoint
-const httpLink = createHttpLink({ 
+const httpLink = createHttpLink({
   uri: '/graphql',
 });
 
@@ -44,15 +32,26 @@ const authLink = setContext((_, { headers }) => {
     },
   };
 });
+console.log("authLink is ", authLink);
 
-const client = new ApolloClient({ 
+const client = new ApolloClient({
   // Set up our client to execute the `authLink` middleware prior to making the request to our GraphQL API
   link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
 });
 
+console.log("client is ", client);
+
 function App() {
   return (
+    // <ApolloProvider client={client}>
+    //   <Router>
+    //     <div>
+    //       <AppNavbar />
+    //     </div>
+    //   </Router>
+    // </ApolloProvider>
+
     <ApolloProvider client={client}> 
       <Router>
         <>
