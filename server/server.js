@@ -4,6 +4,7 @@ const db = require('./config/connection');
 const { ApolloServer } = require('apollo-server-express'); 
 const { typeDefs, resolvers } = require('./schemas'); 
 const { authMiddleware } = require('./utils/auth'); 
+const cors = require('cors');
 
 const server = new ApolloServer({ 
   typeDefs,
@@ -14,6 +15,7 @@ const server = new ApolloServer({
 });
 const PORT = process.env.PORT || 3001;
 const app = express();
+app.use(cors());
 
 // apply middleware to our server to encode url data and json data
 app.use(express.urlencoded({ extended: true }));
