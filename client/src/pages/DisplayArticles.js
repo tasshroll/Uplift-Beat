@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useMutation } from '@apollo/client';
+import { Link } from 'react-router-dom';
 
 import {
     Container,
     Col,
     Button,
     Card,
-    Row
+    Row,
 } from 'react-bootstrap';
 
 import Auth from '../utils/auth';
@@ -67,7 +68,7 @@ const DisplayArticles = () => {
     useEffect(() => {
         // Fetch the initial 20 articles when the component mounts
         fetchNextArticles();
-      }, []);
+    }, []);
 
 
 
@@ -116,20 +117,22 @@ const DisplayArticles = () => {
                                     {news.image ? (
                                         <Card.Img src={news.image} alt={`The cover for ${news.title}`} variant='top' />
                                     ) : null}
-                                    <Card.Body>
-                                        <Card.Title>{news.title}</Card.Title>
-                                        <Card.Text>{news.description}</Card.Text>
-                                        {Auth.loggedIn() && (
-                                            <Button
-                                                disabled={savedArticleIds?.some((savedArticleId) => savedArticleId === news.articleId)}
-                                                className='btn-block btn-info'
-                                                onClick={() => handlesaveArticle(news.articleId)}>
-                                                {savedArticleIds?.some((savedArticleId) => savedArticleId === news.articleId)
-                                                    ? 'This article has already been saved!'
-                                                    : 'Save Article!'}
-                                            </Button>
-                                        )}
-                                    </Card.Body>
+                                    <Link href={news.link} target="_blank" rel="noreferrer">
+                                        <Card.Body>
+                                            <Card.Title>{news.title}</Card.Title>
+                                            <Card.Text>{news.description}</Card.Text>
+                                            {Auth.loggedIn() && (
+                                                <Button
+                                                    disabled={savedArticleIds?.some((savedArticleId) => savedArticleId === news.articleId)}
+                                                    className='btn-block btn-info'
+                                                    onClick={() => handlesaveArticle(news.articleId)}>
+                                                    {savedArticleIds?.some((savedArticleId) => savedArticleId === news.articleId)
+                                                        ? 'This article has already been saved!'
+                                                        : 'Save Article!'}
+                                                </Button>
+                                            )}
+                                        </Card.Body>
+                                    </Link>
                                 </Card>
                             </Col>
                         );
