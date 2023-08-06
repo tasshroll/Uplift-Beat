@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useMutation } from '@apollo/client';
-import { Link } from 'react-router-dom';
 
 import {
     Container,
@@ -14,6 +13,7 @@ import Auth from '../utils/auth';
 import fetchNews from '../utils/API';
 import { saveArticleIds, getSavedArticleIds } from '../utils/localStorage';
 import { SAVE_ARTICLE } from '../utils/mutations';
+import jwtDecode from 'jwt-decode';
 
 
 const DisplayArticles = () => {
@@ -25,8 +25,12 @@ const DisplayArticles = () => {
 
     // useEffect hook to save `savedArticleIds` list to localStorage on component unmount
     useEffect(() => {
-        return () => saveArticleIds(savedArticleIds);
-    });
+        return () => {
+        if (savedArticleIds) {
+            saveArticleIds(savedArticleIds);
+        }
+    };
+  }, [savedArticleIds]);
 
     const [saveArticle] = useMutation(SAVE_ARTICLE);
 
@@ -54,6 +58,7 @@ const DisplayArticles = () => {
                 setArticles((prevArticles) => [...prevArticles, ...newsData]);
                 setOffset((prevOffset) => prevOffset + 20);
                 setIsLoading(false);
+
             })
             .catch((err) => {
                 console.error(err);
@@ -70,15 +75,10 @@ const DisplayArticles = () => {
         fetchNextArticles();
     }, []);
 
-
-
     // create function to handle saving an article to our database
     const handlesaveArticle = async (articleId) => {
-        //event.preventDefault(); // Prevent the default link following behavior
-        console.log("articleId to save is ", articleId);
         // find the article in `newsArticles` state by the matching id
         const articleToSave = articles.find((article) => article.articleId === articleId);
-        console.log("articleToSave is ", articleToSave);
         // get token
         const token = Auth.loggedIn() ? Auth.getToken() : null;
         console.log("token is ", token);
@@ -96,18 +96,66 @@ const DisplayArticles = () => {
             console.error(err);
         }
     };
-    
+
     // When user clicks Save Article, call handlesaveArticle function to save article
     const handleSaveButtonClick = (event, articleId) => {
-        event.preventDefault(); 
-        console.log({articleId})
-        handlesaveArticle(articleId); 
+        event.preventDefault();
+        handlesaveArticle(articleId);
     };
+
+        // create state to hold the current date
+        const [currentDate, setCurrentDate] = useState('');
+
+        // update current date when the component mounts
+        useEffect(() => {
+            const today = new Date();
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            const formattedDate = today.toLocaleDateString(undefined, options);
+            setCurrentDate(formattedDate);
+        }, []);
+
+    const [username, setUsername] = useState('');
+
+    // get username from token on component mount
+    useEffect(() => {
+        const token = localStorage.getItem('id_token');
+
+        if (token) {
+            try {
+
+            // Decode the token to get the username
+            const decodedToken = jwtDecode(token);
+            const displayName = decodedToken.data.username;
+            setUsername(displayName);
+        } catch (error) {
+            console.error("Error decoding token:", error);
+          }   
+        } 
+        }, []);
+
+    const styles = {
+        linkStyle: {
+            textDecoration: 'none',
+            color: 'inherit'
+        },
+        header: {
+            marginBottom: 30,
+        },
+        title: {
+            fontSize: "1rem",
+            fontWeight: "bold",
+            textAlign: "center"
+        },
+    };
+
     return (
         <>
+
             <div className="text-light bg-dark p-5">
-                <Container>
-                    <h1>Latest News</h1>
+                <Container className="text-center">
+                    {username && <h1>Welcome {username}!</h1>}
+
+                    <h1>Latest articles from {currentDate} </h1>
                 </Container>
             </div>
 
@@ -125,9 +173,10 @@ const DisplayArticles = () => {
                                     {news.image ? (
                                         <Card.Img src={news.image} alt={`The cover for ${news.title}`} variant='top' />
                                     ) : null}
-                                    <a href={news.link} target="_blank" rel="noreferrer">
+                                    <a href={news.link} target="_blank" rel="noreferrer" style={styles.linkStyle}>
+
                                         <Card.Body>
-                                            <Card.Title>{news.title}</Card.Title>
+                                            <Card.Title style={styles.title}>{news.title}</Card.Title>
                                             <Card.Text>{news.description}</Card.Text>
                                             {Auth.loggedIn() && (
                                                 <Button
@@ -135,7 +184,7 @@ const DisplayArticles = () => {
                                                     className='btn-block btn-info'
                                                     onClick={(event) => handleSaveButtonClick(event, news.articleId)}>
                                                     {savedArticleIds?.some((savedArticleId) => savedArticleId === news.articleId)
-                                                        ? 'This article has already been saved!'
+                                                        ? 'Saved'
                                                         : 'Save Article!'}
                                                 </Button>
                                             )}
