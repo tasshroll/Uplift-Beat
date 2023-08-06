@@ -14,6 +14,7 @@ import fetchNews from '../utils/API';
 import { saveArticleIds, getSavedArticleIds } from '../utils/localStorage';
 import { SAVE_ARTICLE } from '../utils/mutations';
 import jwtDecode from 'jwt-decode';
+import Typewriter from 'typewriter-effect';
 
 
 const DisplayArticles = () => {
@@ -26,11 +27,11 @@ const DisplayArticles = () => {
     // useEffect hook to save `savedArticleIds` list to localStorage on component unmount
     useEffect(() => {
         return () => {
-        if (savedArticleIds) {
-            saveArticleIds(savedArticleIds);
-        }
-    };
-  }, [savedArticleIds]);
+            if (savedArticleIds) {
+                saveArticleIds(savedArticleIds);
+            }
+        };
+    }, [savedArticleIds]);
 
     const [saveArticle] = useMutation(SAVE_ARTICLE);
 
@@ -103,16 +104,16 @@ const DisplayArticles = () => {
         handlesaveArticle(articleId);
     };
 
-        // create state to hold the current date
-        const [currentDate, setCurrentDate] = useState('');
+    // create state to hold the current date
+    const [currentDate, setCurrentDate] = useState('');
 
-        // update current date when the component mounts
-        useEffect(() => {
-            const today = new Date();
-            const options = { year: 'numeric', month: 'long', day: 'numeric' };
-            const formattedDate = today.toLocaleDateString(undefined, options);
-            setCurrentDate(formattedDate);
-        }, []);
+    // update current date when the component mounts
+    useEffect(() => {
+        const today = new Date();
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        const formattedDate = today.toLocaleDateString(undefined, options);
+        setCurrentDate(formattedDate);
+    }, []);
 
     const [username, setUsername] = useState('');
 
@@ -123,15 +124,15 @@ const DisplayArticles = () => {
         if (token) {
             try {
 
-            // Decode the token to get the username
-            const decodedToken = jwtDecode(token);
-            const displayName = decodedToken.data.username;
-            setUsername(displayName);
-        } catch (error) {
-            console.error("Error decoding token:", error);
-          }   
-        } 
-        }, []);
+                // Decode the token to get the username
+                const decodedToken = jwtDecode(token);
+                const displayName = decodedToken.data.username;
+                setUsername(displayName);
+            } catch (error) {
+                console.error("Error decoding token:", error);
+            }
+        }
+    }, []);
 
     const styles = {
         linkStyle: {
@@ -153,7 +154,20 @@ const DisplayArticles = () => {
 
             <div className="text-light bg-dark p-5">
                 <Container className="text-center">
-                    {username && <h1>Welcome {username}!</h1>}
+                    {username && <h1>Hello {username}!</h1>}
+                    <div style={{ color: "white", fontSize: "2rem", fontWeight: "500", marginBottom: "30px" }}>
+                        <Typewriter
+                            options={{
+                                strings: ['Welcome to Jolly Journal News!'],
+                                autoStart: true,
+                                loop: true,
+                            }}
+                            onInit={(typewriter) => {
+                                typewriter
+                                    .start();
+                            }}
+                        />
+                    </div>
 
                     <h1>Latest articles from {currentDate} </h1>
                 </Container>
