@@ -10,6 +10,7 @@ const { v4: uuidv4 } = require('uuid');
 const NEWS_API_KEY = 'b1677e5088e343cabbe699e7ac5f9ab1';
 //const NEWS_API_KEY = '06cfcdbfc9a948d380fe714be6bdae2d'; // Tifni's 3rd key
 
+
 async function fetchNews(offset) {
   try {
     const response = await fetch(`https://newsapi.org/v2/top-headlines?country=us&technology=health&apiKey=${NEWS_API_KEY}&pageSize=20&page=${offset}`);
