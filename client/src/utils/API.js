@@ -7,8 +7,8 @@ const { v4: uuidv4 } = require('uuid');
 
 //const NEWS_API_KEY = '8895df928ce54f47a6f3704c59088f8d'; // Tifni's 1st key
 // const NEWS_API_KEY = 'fa64ff879fa04ffbbc9c279324c2eb18'; // Tifni's 2nd key
-const NEWS_API_KEY = 'b1677e5088e343cabbe699e7ac5f9ab1';
-// const NEWS_API_KEY = '06cfcdbfc9a948d380fe714be6bdae2d'; // Tifni's 3rd key
+// const NEWS_API_KEY = 'b1677e5088e343cabbe699e7ac5f9ab1';
+const NEWS_API_KEY = '06cfcdbfc9a948d380fe714be6bdae2d'; // Tifni's 3rd key
 
 async function fetchNews(offset) {
   try {
