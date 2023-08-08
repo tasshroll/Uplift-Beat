@@ -18,7 +18,6 @@ const resolvers = {
             if (!user) {
                 throw new AuthenticationError('No user with this userame found!');
             }
-            // isCorrectPassword is a method defined in the User model
             const correctPw = await user.isCorrectPassword(password);
 
             if (!correctPw) {
@@ -28,8 +27,6 @@ const resolvers = {
             const token = signToken(user);
             return { token, user };
         },
-        // args represents the params and the req.body of the query
-        // args holds the username, email, and password of the user
         addUser: async (parent, args) => {
             const user = await User.create(args);
             const token = signToken(user);
@@ -48,19 +45,19 @@ const resolvers = {
                     { new: true }
                 );
                 return updatedUser;
-        
+
             }
             throw new AuthenticationError('You need to be logged in!');
 
         },
         removeArticle: async (parent, { articleId }, context) => {
             if (context.user) {
-            const updatedUser = await User.findByIdAndUpdate(
-                { _id: context.user._id },
-                { $pull: { savedArticles: { articleId } } },
-                { new: true }
-            );
-            return updatedUser;
+                const updatedUser = await User.findByIdAndUpdate(
+                    { _id: context.user._id },
+                    { $pull: { savedArticles: { articleId } } },
+                    { new: true }
+                );
+                return updatedUser;
             }
             throw new AuthenticationError('You need to be logged in!');
         },

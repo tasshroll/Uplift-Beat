@@ -10,9 +10,6 @@ const { v4: uuidv4 } = require('uuid');
 const API_KEY = 'b2836ccdc750cd6d94b3cb47a1460ce3'; // Tif key 2
 
 
-
-
-// National News
 async function fetchNews() {
   try {
 
@@ -21,7 +18,7 @@ async function fetchNews() {
     const data = await response.json();
 
     const articles = data.articles.map(article => ({
-      articleId: uuidv4(), // Generate a unique ID for each article
+      articleId: uuidv4(),
       description: article.description,
       image: article.image,
       link: article.url,
@@ -35,7 +32,6 @@ async function fetchNews() {
   }
 }
 
-// Entertainment News
 async function fetchNews2() {
   try {
 
@@ -43,7 +39,7 @@ async function fetchNews2() {
     const data = await response.json();
 
     const articles = data.articles.map(article => ({
-      articleId: uuidv4(), // Generate a unique ID for each article
+      articleId: uuidv4(),
       description: article.description,
       image: article.image,
       link: article.url,
@@ -57,7 +53,6 @@ async function fetchNews2() {
   }
 }
 
-// Technology News
 async function fetchNews3() {
   try {
 
@@ -66,7 +61,7 @@ async function fetchNews3() {
     const data = await response.json();
 
     const articles = data.articles.map(article => ({
-      articleId: uuidv4(), // Generate a unique ID for each article
+      articleId: uuidv4(),
       description: article.description,
       image: article.image,
       link: article.url,
@@ -79,5 +74,5 @@ async function fetchNews3() {
     return [];
   }
 }
-export {fetchNews,fetchNews2,fetchNews3};
+export { fetchNews, fetchNews2, fetchNews3 };
 

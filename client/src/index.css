@@ -1,5 +1,5 @@
 body {
-    font-family: 'Courier New', Courier, monospace;
+  font-family: 'Courier New', Courier, monospace;
 }
 
 h1,
@@ -8,23 +8,24 @@ h3,
 h4,
 h5,
 h6 {
-    font-family: 'Courier New', Courier, monospace;
+  font-family: 'Courier New', Courier, monospace;
 }
 
 .small {
-    font-weight: 300;
-    font-style: italic;
+  font-weight: 300;
+  font-style: italic;
 }
+
 @media screen and (max-width: 992px) {
-    container {
-      flex: auto;
-      width: 80%;
-    }
+  container {
+    flex: auto;
+    width: 80%;
   }
-  
-  @media screen and (max-width: 768px) {
-    container {
-      flex: auto;
-      width: 50%;
-    }
+}
+
+@media screen and (max-width: 768px) {
+  container {
+    flex: auto;
+    width: 50%;
   }
+}

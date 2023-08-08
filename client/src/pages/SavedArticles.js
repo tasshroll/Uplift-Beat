@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
 
 import {
-    Container,
-    Col,
-    Button,
-    Card,
-    Row,
+  Container,
+  Col,
+  Button,
+  Card,
+  Row,
 } from 'react-bootstrap';
 
 import { GET_ME } from '../utils/queries';
@@ -28,11 +28,8 @@ const SavedArticles = () => {
 
   const handleRemoveArticle = async (articleId) => {
     try {
-      // Execute the removeArticle mutation
       await removeArticle({ variables: { articleId } });
-      // Remove the article from the state after successful removal
       setSavedArticles(savedArticles.filter((article) => article.articleId !== articleId));
-      // Also remove the articleId from localStorage
       removeArticleId(articleId);
     } catch (err) {
       console.error(err);

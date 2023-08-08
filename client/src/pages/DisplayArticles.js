@@ -19,13 +19,9 @@ import Typewriter from 'typewriter-effect';
 
 
 const DisplayArticles = () => {
-    // state for holding returned news api data
-    // const [newsArticles, setnewsArticles] = useState([]);
 
-    // state to hold saved articleId values
     const [savedArticleIds, setsavedArticleIds] = useState(getSavedArticleIds());
 
-    // useEffect hook to save `savedArticleIds` list to localStorage on component unmount
     useEffect(() => {
         return () => {
             if (savedArticleIds) {
@@ -36,10 +32,7 @@ const DisplayArticles = () => {
 
     const [saveArticle] = useMutation(SAVE_ARTICLE);
 
-
-    // for fetching news articles with offset - loading more articles
     const [articles, setArticles] = useState([]);
-    //const [ setOffset] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
 
     const fetchNextArticles = () => {
@@ -55,8 +48,7 @@ const DisplayArticles = () => {
                     link: news.link || '',
                 }));
 
-                // Append the new articles to the existing articles state
-                setArticles(() => [ ...newsData]);
+                setArticles(() => [...newsData]);
                 setIsLoading(false);
 
             })
@@ -65,7 +57,7 @@ const DisplayArticles = () => {
                 setIsLoading(false);
             });
 
-            fetchNews2()
+        fetchNews2()
             .then((items) => {
                 const newsData = items.map((news) => ({
                     articleId: news.articleId,
@@ -75,7 +67,6 @@ const DisplayArticles = () => {
                     link: news.link || '',
                 }));
 
-                // Append the new articles to the existing articles state
                 setArticles((prevArticles) => [...prevArticles, ...newsData]);
                 setIsLoading(false);
 
@@ -85,7 +76,7 @@ const DisplayArticles = () => {
                 setIsLoading(false);
             });
 
-            fetchNews3()
+        fetchNews3()
             .then((items) => {
                 const newsData = items.map((news) => ({
                     articleId: news.articleId,
@@ -95,7 +86,6 @@ const DisplayArticles = () => {
                     link: news.link || '',
                 }));
 
-                // Append the new articles to the existing articles state
                 setArticles((prevArticles) => [...prevArticles, ...newsData]);
                 setIsLoading(false);
 
@@ -106,44 +96,32 @@ const DisplayArticles = () => {
             });
     };
 
-// The empty dependency array ensures this effect runs only once
     useEffect(() => {
-        // Fetch the initial articles when the component mounts
-        // console.log("fetchingnewsarticles")
-        // get_news().then(data => console.log(data))
         fetchNextArticles();
     }, []);
 
-    // create function to handle saving an article to our database
     const handlesaveArticle = async (articleId) => {
-        // find the article in `newsArticles` state by the matching id
         const articleToSave = articles.find((article) => article.articleId === articleId);
-        // get token
         const token = Auth.loggedIn() ? Auth.getToken() : null;
         if (!token) {
             return false;
         }
 
         try {
-            // Execute the saveArticle mutation
-            const { data } = await saveArticle({ variables: { articleData: { ...articleToSave } } });
-            // if article successfully saves to user's account, save article id to state
+            await saveArticle({ variables: { articleData: { ...articleToSave } } });
             setsavedArticleIds([...savedArticleIds, articleToSave.articleId]);
         } catch (err) {
             console.error(err);
         }
     };
 
-    // When user clicks Save Article, call handlesaveArticle function to save article
     const handleSaveButtonClick = (event, articleId) => {
         event.preventDefault();
         handlesaveArticle(articleId);
     };
 
-    // create state to hold the current date
     const [currentDate, setCurrentDate] = useState('');
 
-    // update current date when the component mounts
     useEffect(() => {
         const today = new Date();
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -153,14 +131,12 @@ const DisplayArticles = () => {
 
     const [username, setUsername] = useState('');
 
-    // get username from token on component mount
     useEffect(() => {
         const token = localStorage.getItem('id_token');
 
         if (token) {
             try {
 
-                // Decode the token to get the username
                 const decodedToken = jwtDecode(token);
                 const displayName = decodedToken.data.username;
                 setUsername(displayName);
@@ -191,7 +167,7 @@ const DisplayArticles = () => {
             <div className="text-light bg-dark p-5">
                 <Container className="text-center">
                     {username && <h1>Hello {username}!</h1>}
-                    <div style={{ color: "white", fontSize: "2rem", fontWeight: "500", marginBottom: "30px" }}>
+                    <div style={{ color: "orange", fontSize: "2rem", fontWeight: "500", marginBottom: "30px" }}>
                         <Typewriter
                             options={{
                                 strings: ['Welcome to Jolly Journal News!'],
@@ -213,7 +189,7 @@ const DisplayArticles = () => {
                 <h2 className='pt-5'>
                     {articles.length
                         ? `Viewing ${articles.length} results:`
-                        : 'News is not available at this time. Please try again later.'}
+                        : 'News articles are not available at this time.'}
                 </h2>
                 <Row>
                     {articles.map((news) => {
