@@ -39,7 +39,7 @@ const DisplayArticles = () => {
 
     // for fetching news articles with offset - loading more articles
     const [articles, setArticles] = useState([]);
-    const [ setOffset] = useState(0);
+    //const [ setOffset] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
 
     const fetchNextArticles = () => {
@@ -106,10 +106,7 @@ const DisplayArticles = () => {
             });
     };
 
-    // useEffect(() => {
-    //     // Fetch the initial 20 articles when the component mounts
-    //     fetchNextArticles();
-    // }, []); // The empty dependency array ensures this effect runs only once
+// The empty dependency array ensures this effect runs only once
     useEffect(() => {
         // Fetch the initial articles when the component mounts
         fetchNextArticles();

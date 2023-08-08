@@ -13,12 +13,14 @@ This app features a React front end serving the client great articles from https
 https://github.com/ethandanielsmall/jolly-journal
 
 # Team Members
-Tifini Shroll
+Tifni Shroll
 Ethan Daniel Small
 Mubarak Abdulkadir
 Mario Inzuna
 
 # User Interface
+
+![app landing](./client/public/images/Jolly_Journal.png)
 
 ![main landing](https://github.com/ethandanielsmall/jolly-journal/blob/main/client/public/images/project%203%20-%20main%20page.png?raw=true)
 ![read later](https://github.com/ethandanielsmall/jolly-journal/assets/124843114/f1890398-7ff5-4483-a510-8ea44a7345ee)
