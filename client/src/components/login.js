@@ -38,7 +38,7 @@ const LoginForm = () => {
                 setShowAlert(true);
             }
 
-            setUserFormInfo ({
+            setUserFormInfo({
                 username: '',
                 email: '',
                 password: '',
@@ -48,7 +48,7 @@ const LoginForm = () => {
 
     return (
         <>
-            <Form noValidate validated={validated} onSubmit={handleFormSubmit}>
+            <Form noValidate validated={validated} onSubmit={handleFormSubmit} className='flex-column'>
                 <Alert dismissible onClose={() => setShowAlert(false)} show={showAlert} variant='danger'>
                     Something went wrong with your login credentials!
                 </Alert>
