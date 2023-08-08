@@ -10,7 +10,7 @@ import {
 } from 'react-bootstrap';
 
 import Auth from '../utils/auth';
-import fetchNews from '../utils/API';
+import get_news from "../utils/API"
 //import { fetchNews, fetchNews2 } from '../utils/API.js';
 
 import { saveArticleIds, getSavedArticleIds } from '../utils/localStorage';
@@ -47,8 +47,8 @@ const DisplayArticles = () => {
         setIsLoading(true);
 
         // Fetch 20 articles - offset param allows us to get different sets of articles
-        //const topics = ['topheadlines', 'entertainment', 'health', 'science', 'sports', 'technology'];
-        fetchNews()
+        // const topics = ['topheadlines', 'entertainment', 'health', 'science', 'sports', 'technology'];
+        get_news()
             .then((items) => {
                 const newsData = items.map((news) => ({
                     articleId: news.articleId,
@@ -97,7 +97,9 @@ const DisplayArticles = () => {
     // }, []); // The empty dependency array ensures this effect runs only once
     useEffect(() => {
         // Fetch the initial articles when the component mounts
-        fetchNextArticles();
+        console.log("fetchingnewsarticles")
+        get_news().then(data => console.log(data))
+        // fetchNextArticles();
     }, []);
 
     // create function to handle saving an article to our database

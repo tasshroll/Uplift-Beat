@@ -1,3 +1,4 @@
+require("dotenv").config()
 const express = require('express');
 const path = require('path');
 const db = require('./config/connection');
@@ -20,6 +21,8 @@ app.use(cors());
 // apply middleware to our server to encode url data and json data
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+app.use(require("./routes"))
 
 // if we're in production, serve client/build as static assets
 if (process.env.NODE_ENV === 'production') {
