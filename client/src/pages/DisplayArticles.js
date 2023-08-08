@@ -11,6 +11,8 @@ import {
 
 import Auth from '../utils/auth';
 import fetchNews from '../utils/API';
+//import { fetchNews, fetchNews2 } from '../utils/API.js';
+
 import { saveArticleIds, getSavedArticleIds } from '../utils/localStorage';
 import { SAVE_ARTICLE } from '../utils/mutations';
 import jwtDecode from 'jwt-decode';
@@ -38,14 +40,15 @@ const DisplayArticles = () => {
 
     // for fetching news articles with offset - loading more articles
     const [articles, setArticles] = useState([]);
-    const [offset, setOffset] = useState(0);
+    const [ setOffset] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
 
     const fetchNextArticles = () => {
         setIsLoading(true);
 
         // Fetch 20 articles - offset param allows us to get different sets of articles
-        fetchNews(offset)
+        //const topics = ['topheadlines', 'entertainment', 'health', 'science', 'sports', 'technology'];
+        fetchNews()
             .then((items) => {
                 const newsData = items.map((news) => ({
                     articleId: news.articleId,
@@ -57,7 +60,7 @@ const DisplayArticles = () => {
 
                 // Append the new articles to the existing articles state
                 setArticles((prevArticles) => [...prevArticles, ...newsData]);
-                setOffset((prevOffset) => prevOffset + 20);
+                setOffset((prevOffset) => prevOffset);
                 setIsLoading(false);
 
             })
@@ -65,6 +68,27 @@ const DisplayArticles = () => {
                 console.error(err);
                 setIsLoading(false);
             });
+
+            // fetchNews2()
+            // .then((items) => {
+            //     const newsData = items.map((news) => ({
+            //         articleId: news.articleId,
+            //         title: news.title,
+            //         description: news.description,
+            //         image: news.image || '',
+            //         link: news.link || '',
+            //     }));
+
+            //     // Append the new articles to the existing articles state
+            //     setArticles((prevArticles) => [...prevArticles, ...newsData]);
+            //     setOffset((prevOffset) => prevOffset);
+            //     setIsLoading(false);
+
+            // })
+            // .catch((err) => {
+            //     console.error(err);
+            //     setIsLoading(false);
+            // });
     };
 
     // useEffect(() => {
@@ -72,7 +96,7 @@ const DisplayArticles = () => {
     //     fetchNextArticles();
     // }, []); // The empty dependency array ensures this effect runs only once
     useEffect(() => {
-        // Fetch the initial 20 articles when the component mounts
+        // Fetch the initial articles when the component mounts
         fetchNextArticles();
     }, []);
 
@@ -82,7 +106,6 @@ const DisplayArticles = () => {
         const articleToSave = articles.find((article) => article.articleId === articleId);
         // get token
         const token = Auth.loggedIn() ? Auth.getToken() : null;
-        console.log("token is ", token);
         if (!token) {
             return false;
         }
@@ -90,7 +113,6 @@ const DisplayArticles = () => {
         try {
             // Execute the saveArticle mutation
             const { data } = await saveArticle({ variables: { articleData: { ...articleToSave } } });
-            console.log("data is ", data);
             // if article successfully saves to user's account, save article id to state
             setsavedArticleIds([...savedArticleIds, articleToSave.articleId]);
         } catch (err) {
