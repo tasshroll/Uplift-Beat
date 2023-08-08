@@ -10,7 +10,7 @@ This app features a React front end serving the client great articles from https
 
 # Git Hub Repository
 
-https://github.com/ethandanielsmall/jolly-journalv
+https://github.com/ethandanielsmall/jolly-journal
 
 # Team Members
 Tifini Shroll
