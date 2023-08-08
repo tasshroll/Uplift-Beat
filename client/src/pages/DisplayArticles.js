@@ -10,8 +10,7 @@ import {
 } from 'react-bootstrap';
 
 import Auth from '../utils/auth';
-import fetchNews from '../utils/API';
-//import { fetchNews, fetchNews2 } from '../utils/API.js';
+import { fetchNews, fetchNews2, fetchNews3 } from '../utils/API.js';
 
 import { saveArticleIds, getSavedArticleIds } from '../utils/localStorage';
 import { SAVE_ARTICLE } from '../utils/mutations';
@@ -46,8 +45,6 @@ const DisplayArticles = () => {
     const fetchNextArticles = () => {
         setIsLoading(true);
 
-        // Fetch 20 articles - offset param allows us to get different sets of articles
-        //const topics = ['topheadlines', 'entertainment', 'health', 'science', 'sports', 'technology'];
         fetchNews()
             .then((items) => {
                 const newsData = items.map((news) => ({
@@ -59,8 +56,7 @@ const DisplayArticles = () => {
                 }));
 
                 // Append the new articles to the existing articles state
-                setArticles((prevArticles) => [...prevArticles, ...newsData]);
-                setOffset((prevOffset) => prevOffset);
+                setArticles(() => [ ...newsData]);
                 setIsLoading(false);
 
             })
@@ -69,26 +65,45 @@ const DisplayArticles = () => {
                 setIsLoading(false);
             });
 
-            // fetchNews2()
-            // .then((items) => {
-            //     const newsData = items.map((news) => ({
-            //         articleId: news.articleId,
-            //         title: news.title,
-            //         description: news.description,
-            //         image: news.image || '',
-            //         link: news.link || '',
-            //     }));
+            fetchNews2()
+            .then((items) => {
+                const newsData = items.map((news) => ({
+                    articleId: news.articleId,
+                    title: news.title,
+                    description: news.description,
+                    image: news.image || '',
+                    link: news.link || '',
+                }));
 
-            //     // Append the new articles to the existing articles state
-            //     setArticles((prevArticles) => [...prevArticles, ...newsData]);
-            //     setOffset((prevOffset) => prevOffset);
-            //     setIsLoading(false);
+                // Append the new articles to the existing articles state
+                setArticles((prevArticles) => [...prevArticles, ...newsData]);
+                setIsLoading(false);
 
-            // })
-            // .catch((err) => {
-            //     console.error(err);
-            //     setIsLoading(false);
-            // });
+            })
+            .catch((err) => {
+                console.error(err);
+                setIsLoading(false);
+            });
+
+            fetchNews3()
+            .then((items) => {
+                const newsData = items.map((news) => ({
+                    articleId: news.articleId,
+                    title: news.title,
+                    description: news.description,
+                    image: news.image || '',
+                    link: news.link || '',
+                }));
+
+                // Append the new articles to the existing articles state
+                setArticles((prevArticles) => [...prevArticles, ...newsData]);
+                setIsLoading(false);
+
+            })
+            .catch((err) => {
+                console.error(err);
+                setIsLoading(false);
+            });
     };
 
     // useEffect(() => {
