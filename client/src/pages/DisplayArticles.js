@@ -112,6 +112,8 @@ const DisplayArticles = () => {
     // }, []); // The empty dependency array ensures this effect runs only once
     useEffect(() => {
         // Fetch the initial articles when the component mounts
+        // console.log("fetchingnewsarticles")
+        // get_news().then(data => console.log(data))
         fetchNextArticles();
     }, []);
 
