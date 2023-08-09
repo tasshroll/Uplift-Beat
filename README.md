@@ -12,13 +12,17 @@ This app features a React front end serving the client great articles from https
 
 https://github.com/ethandanielsmall/jolly-journal
 
+# Deployed Application
+
+https://fast-brook-59696-a40083fa7f53.herokuapp.com/
+
 # Team Members
 Tifni Shroll
 Ethan Daniel Small
 Mubarak Abdulkadir
 Mario Inzuna
 
-# User Interface
+# User Interface Concept
 
 ![app landing](./client/public/images/Jolly_Journal.png)
 
