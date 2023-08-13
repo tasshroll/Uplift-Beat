@@ -1,5 +1,4 @@
-# jolly-journal
-The Jolly Journal!
+# Uplift-Beat
 Stay in the Know-How with the Jolly Jounral News App! Get the latest updates on current events happening around the world with just a click. Our app lets users choose from a wide range of news categories, including General, Business, Entertainment, Health, Science, Sports, and Technology. Stay informed and up-to-date with the top headlines and articles on topics that interest you the most. Download our news app now and never miss out on important news again!
 
 # Description
@@ -33,3 +32,18 @@ Mario Inzuna
 
 [![License](https://img.shields.io/badge/License-n/a-n/a.svg)](n/a)
 
+# Installation
+
+Run on Heroku
+
+On the command line these steps can be taken to run the code in develop mode
+1. run npm i which will install all the dependencies specified in package.json file
+
+
+    npm i react-router
+    npm i dot-env
+    npm i react-router-dom
+    npm i @apollo/client
+    npm i react-bootstrrap
+    npm i typewriter-effect
+    npm i react

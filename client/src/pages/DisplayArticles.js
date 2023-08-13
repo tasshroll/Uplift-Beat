@@ -20,6 +20,7 @@ import Typewriter from 'typewriter-effect';
 
 const DisplayArticles = () => {
 
+    // hooks and variables for saved articles
     const [savedArticleIds, setsavedArticleIds] = useState(getSavedArticleIds());
 
     useEffect(() => {
@@ -35,6 +36,7 @@ const DisplayArticles = () => {
     const [articles, setArticles] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
 
+    // news articles
     const fetchNextArticles = () => {
         setIsLoading(true);
 
@@ -100,6 +102,7 @@ const DisplayArticles = () => {
         fetchNextArticles();
     }, []);
 
+    // save article
     const handlesaveArticle = async (articleId) => {
         const articleToSave = articles.find((article) => article.articleId === articleId);
         const token = Auth.loggedIn() ? Auth.getToken() : null;
@@ -120,6 +123,7 @@ const DisplayArticles = () => {
         handlesaveArticle(articleId);
     };
 
+    // display current date on page
     const [currentDate, setCurrentDate] = useState('');
 
     useEffect(() => {
@@ -131,6 +135,7 @@ const DisplayArticles = () => {
 
     const [username, setUsername] = useState('');
 
+    // get username from token
     useEffect(() => {
         const token = localStorage.getItem('id_token');
 
@@ -146,6 +151,7 @@ const DisplayArticles = () => {
         }
     }, []);
 
+    // style page   
     const styles = {
         linkStyle: {
             textDecoration: 'none',
@@ -161,6 +167,7 @@ const DisplayArticles = () => {
         },
     };
 
+    // page layout
     return (
         <>
 

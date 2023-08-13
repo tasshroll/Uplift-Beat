@@ -13,7 +13,7 @@ router.route('/').post(createUser).put(authMiddleware, saveArticle);
 
 router.route('/login').post(login);
 
-router.route('/me').get(authMiddleware, getSingleUser);
+router.route('/quotes').get(quotes);
 
 router.route('/articles/:articleId').delete(authMiddleware, deleteArticle);
 

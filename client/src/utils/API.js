@@ -13,7 +13,8 @@ const API_KEY = 'b2836ccdc750cd6d94b3cb47a1460ce3'; // Tif key 2
 async function fetchNews() {
   try {
 
-    const response = await fetch(`https://gnews.io/api/v4/top-headlines?token=${API_KEY}&topic=nation&country=us&max=9`);
+    //const response = await fetch(`https://gnews.io/api/v4/top-headlines?token=${API_KEY}&topic=nation&country=us&max=9`);
+    const response = await fetch(`https://gnews.io/api/v4/search?q=funny%20news&token=${API_KEY}`);
 
     const data = await response.json();
 
@@ -35,7 +36,8 @@ async function fetchNews() {
 async function fetchNews2() {
   try {
 
-    const response = await fetch(`https://gnews.io/api/v4/top-headlines?token=${API_KEY}&topic=entertainment&country=us&max=9`);
+    //const response = await fetch(`https://gnews.io/api/v4/top-headlines?token=${API_KEY}&topic=entertainment&country=us&max=9`);
+    const response = await fetch(`https://gnews.io/api/v4/search?q=funny%20news&token=${API_KEY}`);
     const data = await response.json();
 
     const articles = data.articles.map(article => ({
@@ -56,7 +58,8 @@ async function fetchNews2() {
 async function fetchNews3() {
   try {
 
-    const response = await fetch(`https://gnews.io/api/v4/top-headlines?token=${API_KEY}&topic=technology&country=us&max=9`);
+    //const response = await fetch(`https://gnews.io/api/v4/top-headlines?token=${API_KEY}&topic=technology&country=us&max=9`);
+    const response = await fetch(`https://gnews.io/api/v4/search?q=uplifting%20news&token=${API_KEY}`);
 
     const data = await response.json();
 
