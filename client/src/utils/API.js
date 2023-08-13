@@ -6,8 +6,8 @@ const { v4: uuidv4 } = require('uuid');
 // Use these 3 API keys to rotate through them to avoid hitting the rate limit of 100 calls/day
 // const API_KEY = '83adf81aaa09ebebd6e2ced515d144b9';
 // const API_KEY = '2d32b3e7362ed426d927b84828553766'; // Mubarek's API key
-// const API_KEY =  '1739725f9b0f266db3eca565f23cc18b'; // Tif key 1
-const API_KEY = 'b2836ccdc750cd6d94b3cb47a1460ce3'; // Tif key 2
+ const API_KEY =  '1739725f9b0f266db3eca565f23cc18b'; // Tif key 1
+//const API_KEY = 'b2836ccdc750cd6d94b3cb47a1460ce3'; // Tif key 2
 
 
 async function fetchNews() {

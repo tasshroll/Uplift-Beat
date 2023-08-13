@@ -16,6 +16,19 @@ import { saveArticleIds, getSavedArticleIds } from '../utils/localStorage';
 import { SAVE_ARTICLE } from '../utils/mutations';
 import jwtDecode from 'jwt-decode';
 import Typewriter from 'typewriter-effect';
+import getRandomQuote from '../utils/quotes';
+import { Carousel } from 'react-bootstrap';
+// import all images from public/images folder
+import Image1 from "../Assets/images/Image1.jpg"
+import Image2 from "../Assets/images/Image2.jpg"
+import Image3 from "../Assets/images/Image3.jpg"
+import Image4 from "../Assets/images/Image4.jpg"
+import Image5 from "../Assets/images/Image5.jpg"
+import Image6 from "../Assets/images/Image6.jpg"
+import Image7 from "../Assets/images/Image7.jpg"
+import Image8 from "../Assets/images/Image8.jpg"
+import Image9 from "../Assets/images/Image9.jpg"
+
 
 
 const DisplayArticles = () => {
@@ -151,6 +164,13 @@ const DisplayArticles = () => {
         }
     }, []);
 
+    // array of images
+    const images = [Image1, Image2, Image3, Image4, Image5, Image6, Image7, Image8, Image9];
+    // function to return random image
+    const randomImage = () => {
+        return images[Math.floor(Math.random() * images.length)];
+    };
+
     // style page   
     const styles = {
         linkStyle: {
@@ -165,6 +185,14 @@ const DisplayArticles = () => {
             fontWeight: "bold",
             textAlign: "center"
         },
+        quoteContainer: {
+            display: "flex",
+            maxWidth: "100%",
+            justifyContent: "center",
+            alignItems: "center",
+            marginBottom: "30px",
+            marginTop: "30px"
+        },
     };
 
     // page layout
@@ -177,7 +205,7 @@ const DisplayArticles = () => {
                     <div style={{ color: "orange", fontSize: "2rem", fontWeight: "500", marginBottom: "30px" }}>
                         <Typewriter
                             options={{
-                                strings: ['Welcome to Jolly Journal News!'],
+                                strings: ['Welcome to Uplift Beat !'],
                                 autoStart: true,
                                 loop: true,
                             }}
@@ -188,17 +216,58 @@ const DisplayArticles = () => {
                         />
                     </div>
 
-                    <h1>Latest articles from {currentDate} </h1>
+
+                    <h1>Uplift your day on {currentDate} </h1>
                 </Container>
             </div>
 
             <Container>
+                <div style={styles.quoteContainer}>
+                    <Carousel slide={false}>
+                        <Carousel.Item>
+                            <img
+                                src={randomImage()}
+                                alt="First slide"
+                                style={{ maxWidth: '100%', maxHeight: '200px' }}
+                            />
+                            <Carousel.Caption>
+                                <h3>{getRandomQuote()}</h3>
+                            </Carousel.Caption>
+                        </Carousel.Item>
+                        <Carousel.Item>
+                            <img
+                                src={randomImage()} alt="Second slide"
+                                style={{ maxWidth: '100%', maxHeight: '200px' }}
+                            />
+
+                            <Carousel.Caption>
+                                <h3>{getRandomQuote()}</h3>
+                            </Carousel.Caption>
+                        </Carousel.Item>
+                        <Carousel.Item>
+                            <img
+                                src={randomImage()} alt="Third slide"
+                                style={{ maxWidth: '100%', maxHeight: '200px' }}
+                            />
+                            <Carousel.Caption>
+                                <h3>{getRandomQuote()}</h3>
+                            </Carousel.Caption>
+                        </Carousel.Item>
+                    </Carousel>
+
+                </div>
+
                 <h2 className='pt-5'>
+
+
+
                     {articles.length
                         ? `Viewing ${articles.length} results:`
                         : 'News articles are not available at this time.'}
                 </h2>
                 <Row>
+
+
                     {articles.map((news) => {
                         return (
                             <Col md="4" key={news.articleId}>
