@@ -187,11 +187,26 @@ const DisplayArticles = () => {
         },
         quoteContainer: {
             display: "flex",
-            maxWidth: "100%",
+            maxWidth: "80%",
             justifyContent: "center",
             alignItems: "center",
             marginBottom: "30px",
-            marginTop: "30px"
+            marginTop: "30px",
+            fontWeight: "bold",
+        },
+        quote: {
+            fontWeight: "bold",
+            textAlign: "center",
+            color: "black"
+        },
+        background: {
+            backgroundColor: "#f0ebe1"
+        },
+        card: {
+            height: '100%', 
+            display: 'flex',
+            flexDirection: 'column',
+            marginBottom: '10px'
         },
     };
 
@@ -200,9 +215,9 @@ const DisplayArticles = () => {
         <>
 
             <div className="text-light bg-dark p-5">
-                <Container className="text-center">
+                <Container  className="text-center">
                     {username && <h1>Hello {username}!</h1>}
-                    <div style={{ color: "orange", fontSize: "2rem", fontWeight: "500", marginBottom: "30px" }}>
+                    <div style={{ color: "pink", fontSize: "2rem", fontWeight: "500", marginBottom: "30px" }}>
                         <Typewriter
                             options={{
                                 strings: ['Welcome to Uplift Beat !'],
@@ -216,99 +231,101 @@ const DisplayArticles = () => {
                         />
                     </div>
 
-
-                    <h1>Uplift your day on {currentDate} </h1>
                 </Container>
             </div>
+            <div style={styles.background} className="mt-0" >
+                <Container >
+                    <div  >
+                        <Carousel slide={false}>
 
-            <Container>
-                <div style={styles.quoteContainer}>
-                    <Carousel slide={false}>
-                        <Carousel.Item>
-                            <img
-                                src={randomImage()}
-                                alt="First slide"
-                                style={{ maxWidth: '100%', maxHeight: '200px' }}
-                            />
-                            <Carousel.Caption>
-                                <h3>{getRandomQuote()}</h3>
-                            </Carousel.Caption>
-                        </Carousel.Item>
-                        <Carousel.Item>
-                            <img
-                                src={randomImage()} alt="Second slide"
-                                style={{ maxWidth: '100%', maxHeight: '200px' }}
-                            />
-
-                            <Carousel.Caption>
-                                <h3>{getRandomQuote()}</h3>
-                            </Carousel.Caption>
-                        </Carousel.Item>
-                        <Carousel.Item>
-                            <img
-                                src={randomImage()} alt="Third slide"
-                                style={{ maxWidth: '100%', maxHeight: '200px' }}
-                            />
-                            <Carousel.Caption>
-                                <h3>{getRandomQuote()}</h3>
-                            </Carousel.Caption>
-                        </Carousel.Item>
-                    </Carousel>
-
-                </div>
-
-                <h2 className='pt-5'>
+                            <Carousel.Item style={{
+                                maxWidth: '100%', maxHeight: '200px'
+                            }}>
+                                <img src={randomImage()} alt="Second slide" />
+                                <Carousel.Caption>
+                                    <h3 style={styles.quote}>{getRandomQuote()}</h3>
+                                </Carousel.Caption>
+                            </Carousel.Item>
 
 
+                            <Carousel.Item style={{
+                                maxWidth: '100%', maxHeight: '200px'
+                            }}>
+                                <img src={randomImage()} alt="Second slide" />
+                                <Carousel.Caption>
+                                    <h3 style={styles.quote}>{getRandomQuote()}</h3>
+                                </Carousel.Caption>
+                            </Carousel.Item>
 
-                    {articles.length
-                        ? `Viewing ${articles.length} results:`
-                        : 'News articles are not available at this time.'}
-                </h2>
-                <Row>
+
+                            <Carousel.Item style={{
+                                maxWidth: '100%', maxHeight: '200px'
+                            }}>
+                                <img src={randomImage()} alt="Second slide" />
+                                <Carousel.Caption style={styles.quote}>
+                                    <h3 >{getRandomQuote()}</h3>
+                                </Carousel.Caption>
+                            </Carousel.Item>
+
+                        </Carousel>
+
+                    </div >
+
+                    <h2 className='pt-5'>
 
 
-                    {articles.map((news) => {
-                        return (
-                            <Col md="4" key={news.articleId}>
-                                <Card key={news.articleId} border='dark'>
-                                    {news.image ? (
-                                        <Card.Img src={news.image} alt={`The cover for ${news.title}`} variant='top' />
-                                    ) : null}
-                                    <a href={news.link} target="_blank" rel="noreferrer" style={styles.linkStyle}>
 
-                                        <Card.Body>
-                                            <Card.Title style={styles.title}>{news.title}</Card.Title>
-                                            <Card.Text>{news.description}</Card.Text>
-                                            {Auth.loggedIn() && (
-                                                <Button
-                                                    disabled={savedArticleIds?.some((savedArticleId) => savedArticleId === news.articleId)}
-                                                    className='btn-block btn-info'
-                                                    onClick={(event) => handleSaveButtonClick(event, news.articleId)}>
-                                                    {savedArticleIds?.some((savedArticleId) => savedArticleId === news.articleId)
-                                                        ? 'Saved'
-                                                        : 'Save Article!'}
-                                                </Button>
-                                            )}
-                                        </Card.Body>
-                                    </a>
-                                </Card>
-                            </Col>
-                        );
-                    })}
-                </Row>
-                {isLoading ? (
-                    <p>Loading...</p>
-                ) : (
-                    <Button
-                        onClick={fetchNextArticles}
-                        disabled={isLoading}
-                        className='btn-block btn-info'
-                    >
-                        Load More
-                    </Button>
-                )}
-            </Container>
+                        {articles.length
+                            ? `Viewing ${articles.length} uplifting news articles posted ${currentDate}:`
+                            : 'News articles are not available at this time.'}
+                    </h2>
+                    <Row>
+
+
+                        {articles.map((news) => {
+                            return (
+                                <Col md="4" key={news.articleId}>
+                                    <Card key={news.articleId} border='dark' style={styles.card}>
+                                        {news.image ? (
+                                            <Card.Img src={news.image} alt={`The cover for ${news.title}`} variant='top' />
+                                        ) : null}
+                                        <a href={news.link} target="_blank" rel="noreferrer" style={styles.linkStyle}>
+
+                                            <Card.Body>
+                                                <Card.Title style={styles.title}>{news.title}</Card.Title>
+                                                <Card.Text>{news.description}</Card.Text>
+                                                {Auth.loggedIn() && (
+                                                    <Button
+                                                        disabled={savedArticleIds?.some((savedArticleId) => savedArticleId === news.articleId)}
+                                                        className='btn-block btn-info'
+                                                        onClick={(event) => handleSaveButtonClick(event, news.articleId)}>
+                                                        {savedArticleIds?.some((savedArticleId) => savedArticleId === news.articleId)
+                                                            ? 'Saved'
+                                                            : 'Save Article!'}
+                                                    </Button>
+                                                )}
+                                            </Card.Body>
+                                        </a>
+                                    </Card>
+                                </Col>
+                            );
+                        })}
+                    </Row>
+                    {
+                        isLoading ? (
+                            <p>Loading...</p>
+                        ) : (
+                            <Button
+                                onClick={fetchNextArticles}
+                                disabled={isLoading}
+                                className='btn-block btn-info'
+                            >
+                                Load More
+                            </Button>
+                        )
+                    }
+                </Container >
+            </div>
         </>
     );
 };
