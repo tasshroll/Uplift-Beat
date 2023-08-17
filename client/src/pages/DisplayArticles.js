@@ -1,3 +1,6 @@
+// TODO correct this problem - when i click "Save Article" button, the article is saved
+// When I view saved articles, the article is there and when I go back to my home page, the article is still there but the
+// button below it shows "Save Article" instead of "Saved" 
 import React, { useState, useEffect } from 'react';
 import { useMutation } from '@apollo/client';
 
@@ -48,114 +51,57 @@ const DisplayArticles = () => {
 
     const [articles, setArticles] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-
-    // news articles
-    // const fetchNextArticles = () => {
-    //     setIsLoading(true);
-
-    //     fetchNews()
-    //         .then((items) => {
-    //             const newsData = items.map((news) => ({
-    //                 articleId: news.articleId,
-    //                 title: news.title,
-    //                 description: news.description,
-    //                 image: news.image || '',
-    //                 link: news.link || '',
-    //             }));
-    //             console.log("Fetched newsData", newsData);
-
-    //             setArticles(() => [...newsData]);
-    //             setIsLoading(false);
-
-    //         })
-    //         .catch((err) => {
-    //             console.error(err);
-    //             setIsLoading(false);
-    //         });
-
-    //     fetchNews2()
-    //         .then((items) => {
-    //             const newsData = items.map((news) => ({
-    //                 articleId: news.articleId,
-    //                 title: news.title,
-    //                 description: news.description,
-    //                 image: news.image || '',
-    //                 link: news.link || '',
-    //             }));
-
-    //             setArticles((prevArticles) => [...prevArticles, ...newsData]);
-    //             setIsLoading(false);
-
-    //         })
-    //         .catch((err) => {
-    //             console.error(err);
-    //             setIsLoading(false);
-    //         });
-
-    //     fetchNews3()
-    //         .then((items) => {
-    //             const newsData = items.map((news) => ({
-    //                 articleId: news.articleId,
-    //                 title: news.title,
-    //                 description: news.description,
-    //                 image: news.image || '',
-    //                 link: news.link || '',
-    //             }));
-
-    //             setArticles((prevArticles) => [...prevArticles, ...newsData]);
-    //             setIsLoading(false);
-
-    //         })
-    //         .catch((err) => {
-    //             console.error(err);
-    //             setIsLoading(false);
-    //         });
-    // };
-
-    // useEffect(() => {
-    //     fetchNextArticles();
-    // }, []);
+    const [displayedArticleIds, setDisplayedArticleIds] = useState([]);
 
     const fetchArticlesByQuery = (query) => {
         return fetchNews(query)
-          .then((items) => {
-            return items.map((news) => ({
-              articleId: news.articleId,
-              title: news.title,
-              description: news.description,
-              image: news.image || '',
-              link: news.link || '',
-            }));
-          })
-          .catch((err) => {
-            console.error(err);
-            return [];
-          });
-      };
-      
-      const fetchNextArticles = () => {
+            .then((items) => {
+                return items.map((news) => ({
+                    articleId: news.articleId,
+                    title: news.title,
+                    description: news.description,
+                    image: news.image || '',
+                    link: news.link || '',
+                }));
+            })
+            .catch((err) => {
+                console.error(err);
+                return [];
+            });
+    };
+
+    const fetchNextArticles = () => {
         setIsLoading(true);
-      
-        const queries = ['funny', 'positive', 'uplifting']; // Modify this array as needed
-      
+    
+        const queries = ['uplifting', 'motivational', 'inspirational'];
+    
         const fetchPromises = queries.map((query) => fetchArticlesByQuery(query));
-      
+    
         Promise.all(fetchPromises)
-          .then((results) => {
+        .then((results) => {
             const allNewsData = results.flatMap((items) => items);
-      
-            setArticles((prevArticles) => [...prevArticles, ...allNewsData]);
+            const uniqueNewsData = allNewsData.filter((news) => (
+                !displayedArticleIds.includes(news.articleId)
+            ));
+    
+            // Filter out articles with duplicate titles from allNewsData and existing articles
+            const filteredNewsData = uniqueNewsData.filter((news) => (
+                !articles.some((article) => article.title === news.title)
+            ));
+    
+            setArticles((prevArticles) => [...prevArticles, ...filteredNewsData]);
+            setDisplayedArticleIds((prevIds) => [...prevIds, ...filteredNewsData.map((news) => news.articleId)]);
             setIsLoading(false);
-          })
-          .catch((err) => {
+        })
+        .catch((err) => {
             console.error(err);
             setIsLoading(false);
-          });
-      };
-      
-      useEffect(() => {
+        });
+    };
+
+    useEffect(() => {
         fetchNextArticles();
-      }, []);
+    }, []);
 
     // save article
     const handlesaveArticle = async (articleId) => {
@@ -235,17 +181,19 @@ const DisplayArticles = () => {
             marginBottom: "30px",
             marginTop: "30px",
             fontWeight: "bold",
+            fontSize: ".75rem",
         },
         quote: {
             fontWeight: "bold",
             textAlign: "center",
-            color: "black"
+            color: "black",
+            fontSize: "1.3rem",
         },
         background: {
             backgroundColor: "#f0ebe1"
         },
         card: {
-            height: '100%', 
+            height: '100%',
             display: 'flex',
             flexDirection: 'column',
             marginBottom: '10px'
@@ -257,7 +205,7 @@ const DisplayArticles = () => {
         <>
 
             <div className="text-light bg-dark p-5">
-                <Container  className="text-center">
+                <Container className="text-center">
                     {username && <h1>Hello {username}!</h1>}
                     <div style={{ color: "pink", fontSize: "2rem", fontWeight: "500", marginBottom: "30px" }}>
                         <Typewriter
@@ -275,10 +223,10 @@ const DisplayArticles = () => {
 
                 </Container>
             </div>
-            <div style={styles.background} className="mt-0" >
+            <div style={{ ...styles.background, paddingTop: '20px' }} className="mt-0">
                 <Container >
                     <div  >
-                        <Carousel slide={false}>
+                        <Carousel slide={false} interval={7000}>
 
                             <Carousel.Item style={{
                                 maxWidth: '100%', maxHeight: '200px'
@@ -304,8 +252,8 @@ const DisplayArticles = () => {
                                 maxWidth: '100%', maxHeight: '200px'
                             }}>
                                 <img src={randomImage()} alt="Second slide" />
-                                <Carousel.Caption style={styles.quote}>
-                                    <h3 >{getRandomQuote()}</h3>
+                                <Carousel.Caption>
+                                    <h3 style={styles.quote}>{getRandomQuote()}</h3>
                                 </Carousel.Caption>
                             </Carousel.Item>
 
