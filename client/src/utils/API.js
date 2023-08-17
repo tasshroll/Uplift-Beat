@@ -1,5 +1,6 @@
 const fetch = require('node-fetch');
 const { v4: uuidv4 } = require('uuid');
+const currentDate = new Date().toISOString().slice(0, 10); // Get current date in YYYY-MM-DD format
 
 //const GOOGLE_NEWS_API_KEY = process.env.REACT_APP_GOOGLE_NEWS_API_KEY;
 
@@ -10,11 +11,10 @@ const { v4: uuidv4 } = require('uuid');
 //const API_KEY = 'b2836ccdc750cd6d94b3cb47a1460ce3'; // Tif key 2
 
 
-async function fetchNews() {
+async function fetchNews(query) {
   try {
 
-    //const response = await fetch(`https://gnews.io/api/v4/top-headlines?token=${API_KEY}&topic=nation&country=us&max=9`);
-    const response = await fetch(`https://gnews.io/api/v4/search?q=funny%20news&token=${API_KEY}`);
+    const response = await fetch(`https://gnews.io/api/v4/search?q=${query}%20news&from=${currentDate}&to=${currentDate}&lang=en&token=${API_KEY}`);
 
     const data = await response.json();
 
@@ -33,49 +33,6 @@ async function fetchNews() {
   }
 }
 
-async function fetchNews2() {
-  try {
 
-    //const response = await fetch(`https://gnews.io/api/v4/top-headlines?token=${API_KEY}&topic=entertainment&country=us&max=9`);
-    const response = await fetch(`https://gnews.io/api/v4/search?q=funny%20news&token=${API_KEY}`);
-    const data = await response.json();
-
-    const articles = data.articles.map(article => ({
-      articleId: uuidv4(),
-      description: article.description,
-      image: article.image,
-      link: article.url,
-      title: article.title,
-    }));
-
-    return articles;
-  } catch (error) {
-    console.error('Error fetching news:', error);
-    return [];
-  }
-}
-
-async function fetchNews3() {
-  try {
-
-    //const response = await fetch(`https://gnews.io/api/v4/top-headlines?token=${API_KEY}&topic=technology&country=us&max=9`);
-    const response = await fetch(`https://gnews.io/api/v4/search?q=uplifting%20news&token=${API_KEY}`);
-
-    const data = await response.json();
-
-    const articles = data.articles.map(article => ({
-      articleId: uuidv4(),
-      description: article.description,
-      image: article.image,
-      link: article.url,
-      title: article.title,
-    }));
-
-    return articles;
-  } catch (error) {
-    console.error('Error fetching news:', error);
-    return [];
-  }
-}
-export { fetchNews, fetchNews2, fetchNews3 };
+export { fetchNews };
 

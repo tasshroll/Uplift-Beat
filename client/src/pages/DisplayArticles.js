@@ -10,7 +10,7 @@ import {
 } from 'react-bootstrap';
 
 import Auth from '../utils/auth';
-import { fetchNews, fetchNews2, fetchNews3 } from '../utils/API.js';
+import { fetchNews } from '../utils/API.js';
 
 import { saveArticleIds, getSavedArticleIds } from '../utils/localStorage';
 import { SAVE_ARTICLE } from '../utils/mutations';
@@ -50,70 +50,112 @@ const DisplayArticles = () => {
     const [isLoading, setIsLoading] = useState(false);
 
     // news articles
-    const fetchNextArticles = () => {
+    // const fetchNextArticles = () => {
+    //     setIsLoading(true);
+
+    //     fetchNews()
+    //         .then((items) => {
+    //             const newsData = items.map((news) => ({
+    //                 articleId: news.articleId,
+    //                 title: news.title,
+    //                 description: news.description,
+    //                 image: news.image || '',
+    //                 link: news.link || '',
+    //             }));
+    //             console.log("Fetched newsData", newsData);
+
+    //             setArticles(() => [...newsData]);
+    //             setIsLoading(false);
+
+    //         })
+    //         .catch((err) => {
+    //             console.error(err);
+    //             setIsLoading(false);
+    //         });
+
+    //     fetchNews2()
+    //         .then((items) => {
+    //             const newsData = items.map((news) => ({
+    //                 articleId: news.articleId,
+    //                 title: news.title,
+    //                 description: news.description,
+    //                 image: news.image || '',
+    //                 link: news.link || '',
+    //             }));
+
+    //             setArticles((prevArticles) => [...prevArticles, ...newsData]);
+    //             setIsLoading(false);
+
+    //         })
+    //         .catch((err) => {
+    //             console.error(err);
+    //             setIsLoading(false);
+    //         });
+
+    //     fetchNews3()
+    //         .then((items) => {
+    //             const newsData = items.map((news) => ({
+    //                 articleId: news.articleId,
+    //                 title: news.title,
+    //                 description: news.description,
+    //                 image: news.image || '',
+    //                 link: news.link || '',
+    //             }));
+
+    //             setArticles((prevArticles) => [...prevArticles, ...newsData]);
+    //             setIsLoading(false);
+
+    //         })
+    //         .catch((err) => {
+    //             console.error(err);
+    //             setIsLoading(false);
+    //         });
+    // };
+
+    // useEffect(() => {
+    //     fetchNextArticles();
+    // }, []);
+
+    const fetchArticlesByQuery = (query) => {
+        return fetchNews(query)
+          .then((items) => {
+            return items.map((news) => ({
+              articleId: news.articleId,
+              title: news.title,
+              description: news.description,
+              image: news.image || '',
+              link: news.link || '',
+            }));
+          })
+          .catch((err) => {
+            console.error(err);
+            return [];
+          });
+      };
+      
+      const fetchNextArticles = () => {
         setIsLoading(true);
-
-        fetchNews()
-            .then((items) => {
-                const newsData = items.map((news) => ({
-                    articleId: news.articleId,
-                    title: news.title,
-                    description: news.description,
-                    image: news.image || '',
-                    link: news.link || '',
-                }));
-
-                setArticles(() => [...newsData]);
-                setIsLoading(false);
-
-            })
-            .catch((err) => {
-                console.error(err);
-                setIsLoading(false);
-            });
-
-        fetchNews2()
-            .then((items) => {
-                const newsData = items.map((news) => ({
-                    articleId: news.articleId,
-                    title: news.title,
-                    description: news.description,
-                    image: news.image || '',
-                    link: news.link || '',
-                }));
-
-                setArticles((prevArticles) => [...prevArticles, ...newsData]);
-                setIsLoading(false);
-
-            })
-            .catch((err) => {
-                console.error(err);
-                setIsLoading(false);
-            });
-
-        fetchNews3()
-            .then((items) => {
-                const newsData = items.map((news) => ({
-                    articleId: news.articleId,
-                    title: news.title,
-                    description: news.description,
-                    image: news.image || '',
-                    link: news.link || '',
-                }));
-
-                setArticles((prevArticles) => [...prevArticles, ...newsData]);
-                setIsLoading(false);
-
-            })
-            .catch((err) => {
-                console.error(err);
-                setIsLoading(false);
-            });
-    };
-
-    useEffect(() => {
+      
+        const queries = ['funny', 'positive', 'uplifting']; // Modify this array as needed
+      
+        const fetchPromises = queries.map((query) => fetchArticlesByQuery(query));
+      
+        Promise.all(fetchPromises)
+          .then((results) => {
+            const allNewsData = results.flatMap((items) => items);
+      
+            setArticles((prevArticles) => [...prevArticles, ...allNewsData]);
+            setIsLoading(false);
+          })
+          .catch((err) => {
+            console.error(err);
+            setIsLoading(false);
+          });
+      };
+      
+      useEffect(() => {
         fetchNextArticles();
-    }, []);
+      }, []);
 
     // save article
     const handlesaveArticle = async (articleId) => {
