@@ -1,7 +1,7 @@
 {
-  "name": "jolly-journal",
+  "name": "uplift-beat",
   "version": "1.0.0",
-  "description": "The Jolly Journal!",
+  "description": "Uplift Beat",
   "main": "server/server.js",
   "scripts": {
     "start": "node server/server.js",

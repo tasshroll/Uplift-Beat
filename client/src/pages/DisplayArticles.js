@@ -19,6 +19,7 @@ import { saveArticleIds, getSavedArticleIds } from '../utils/localStorage';
 import { SAVE_ARTICLE } from '../utils/mutations';
 import jwtDecode from 'jwt-decode';
 import Typewriter from 'typewriter-effect';
+
 import getRandomQuote from '../utils/quotes';
 import { Carousel } from 'react-bootstrap';
 // import all images from public/images folder
@@ -57,7 +58,7 @@ const DisplayArticles = () => {
         return fetchNews(query)
             .then((items) => {
                 return items.map((news) => ({
-                    articleId: news.articleId,
+                    uniqueId: news.uniqueId,
                     title: news.title,
                     description: news.description,
                     image: news.image || '',
@@ -72,56 +73,62 @@ const DisplayArticles = () => {
 
     const fetchNextArticles = () => {
         setIsLoading(true);
-    
+
         const queries = ['uplifting', 'motivational', 'inspirational'];
-    
+
         const fetchPromises = queries.map((query) => fetchArticlesByQuery(query));
-    
+
         Promise.all(fetchPromises)
-        .then((results) => {
-            const allNewsData = results.flatMap((items) => items);
-            const uniqueNewsData = allNewsData.filter((news) => (
-                !displayedArticleIds.includes(news.articleId)
-            ));
-    
-            // Filter out articles with duplicate titles from allNewsData and existing articles
-            const filteredNewsData = uniqueNewsData.filter((news) => (
-                !articles.some((article) => article.title === news.title)
-            ));
-    
-            setArticles((prevArticles) => [...prevArticles, ...filteredNewsData]);
-            setDisplayedArticleIds((prevIds) => [...prevIds, ...filteredNewsData.map((news) => news.articleId)]);
-            setIsLoading(false);
-        })
-        .catch((err) => {
-            console.error(err);
-            setIsLoading(false);
-        });
+            .then((results) => {
+                const allNewsData = results.flatMap((items) => items);
+                // const uniqueNewsData = allNewsData.filter((news) => (
+                //     !displayedArticleIds.includes(news.uniqueId)
+                // ));
+                console.log(allNewsData);
+
+                // Filter out articles with duplicate titles from allNewsData and existing articles
+                const filteredNewsData = allNewsData.filter((news) => (
+                    !articles.some((article) => article.title === news.title)
+                ));
+
+                setArticles((prevArticles) => [...prevArticles, ...filteredNewsData]);
+                setDisplayedArticleIds((prevIds) => [...prevIds, ...filteredNewsData.map((news) => news.uniqueId)]);
+                console.log(displayedArticleIds);
+                setIsLoading(false);
+            })
+            .catch((err) => {
+                console.error(err);
+                setIsLoading(false);
+            });
     };
 
     useEffect(() => {
         fetchNextArticles();
     }, []);
 
-    // save article
-    const handlesaveArticle = async (articleId) => {
-        const articleToSave = articles.find((article) => article.articleId === articleId);
+    // save article by its unique id
+    const handlesaveArticle = async (uniqueId) => {
+        const articleToSave = articles.find((article) => article.uniqueId === uniqueId);
+        console.log("article to save is", articleToSave);
         const token = Auth.loggedIn() ? Auth.getToken() : null;
         if (!token) {
             return false;
         }
 
         try {
+            // call mutation to saveArticle to DB
             await saveArticle({ variables: { articleData: { ...articleToSave } } });
-            setsavedArticleIds([...savedArticleIds, articleToSave.articleId]);
+            console.log("savedArticleIds is ", savedArticleIds);
+            setsavedArticleIds([...savedArticleIds, articleToSave.uniqueId]);
+
         } catch (err) {
             console.error(err);
         }
     };
 
-    const handleSaveButtonClick = (event, articleId) => {
+    const handleSaveButtonClick = (event, uniqueId) => {
         event.preventDefault();
-        handlesaveArticle(articleId);
+        handlesaveArticle(uniqueId);
     };
 
     // display current date on page
@@ -203,7 +210,7 @@ const DisplayArticles = () => {
     // page layout
     return (
         <>
-
+            {/* 
             <div className="text-light bg-dark p-5">
                 <Container className="text-center">
                     {username && <h1>Hello {username}!</h1>}
@@ -222,7 +229,13 @@ const DisplayArticles = () => {
                     </div>
 
                 </Container>
-            </div>
+            </div> */}
+      <div className="text-light bg-dark p-5">
+        <Container className="text-center">
+          {username && <h1>Hello {username}!</h1>}
+          <div className="fade-in-text">Welcome to Uplift Beat!</div>
+        </Container>
+      </div>
             <div style={{ ...styles.background, paddingTop: '20px' }} className="mt-0">
                 <Container >
                     <div  >
@@ -274,8 +287,8 @@ const DisplayArticles = () => {
 
                         {articles.map((news) => {
                             return (
-                                <Col md="4" key={news.articleId}>
-                                    <Card key={news.articleId} border='dark' style={styles.card}>
+                                <Col md="4" key={news.uniqueId}>
+                                    <Card key={news.uniqueId} border='dark' style={styles.card}>
                                         {news.image ? (
                                             <Card.Img src={news.image} alt={`The cover for ${news.title}`} variant='top' />
                                         ) : null}
@@ -286,10 +299,10 @@ const DisplayArticles = () => {
                                                 <Card.Text>{news.description}</Card.Text>
                                                 {Auth.loggedIn() && (
                                                     <Button
-                                                        disabled={savedArticleIds?.some((savedArticleId) => savedArticleId === news.articleId)}
+                                                        disabled={savedArticleIds?.some((id) => id === news.uniqueId)}
                                                         className='btn-block btn-info'
-                                                        onClick={(event) => handleSaveButtonClick(event, news.articleId)}>
-                                                        {savedArticleIds?.some((savedArticleId) => savedArticleId === news.articleId)
+                                                        onClick={(event) => handleSaveButtonClick(event, news.uniqueId)}>
+                                                        {savedArticleIds?.some((id) => id === news.uniqueId)
                                                             ? 'Saved'
                                                             : 'Save Article!'}
                                                     </Button>

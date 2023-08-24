@@ -7,7 +7,7 @@ export const GET_ME = gql`
       username
       email
       savedArticles {
-        articleId
+        uniqueId
         description
         title
         image

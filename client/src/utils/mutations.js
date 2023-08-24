@@ -34,7 +34,7 @@ export const SAVE_ARTICLE = gql`
       email
       articleCount
       savedArticles {
-        articleId
+        uniqueId
         description
         title
         image
@@ -51,7 +51,7 @@ export const REMOVE_ARTICLE = gql`
       username
       email
       savedArticles {
-        articleId
+        uniqueId
         description
         title
         image

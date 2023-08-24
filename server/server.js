@@ -7,6 +7,8 @@ const { ApolloServer } = require('apollo-server-express');
 const { typeDefs, resolvers } = require('./schemas');
 const { authMiddleware } = require('./utils/auth');
 const cors = require('cors');
+// seed the database
+const {seedNews} = require('./utils/API');
 
 // Apollo server
 const server = new ApolloServer({
@@ -47,3 +49,6 @@ const startApolloServer = async (typeDefs, resolvers) => {
 
 // start the server
 startApolloServer(typeDefs, resolvers); 
+
+// seed the database with news articles from GNews API
+seedNews();

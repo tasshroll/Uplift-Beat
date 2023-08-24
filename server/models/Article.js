@@ -1,16 +1,12 @@
 const { Schema } = require('mongoose');
 
 const articleSchema = new Schema({
-  authors: [
-    {
-      type: String,
-    },
-  ],
+
   description: {
     type: String,
     required: true,
   },
-  articleId: {
+  uniqueId: {
     type: String,
     required: true,
   },
