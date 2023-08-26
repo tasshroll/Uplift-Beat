@@ -16,4 +16,4 @@ newsSchema.virtual('newsCount').get(function () {
 
 const News = model('News', newsSchema);
 
-module.exports = News;
+module.exports = {News};

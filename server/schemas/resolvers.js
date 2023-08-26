@@ -1,6 +1,6 @@
 const { AuthenticationError } = require('apollo-server-express');
 const { signToken } = require('../utils/auth');
-const { User } = require('../models');
+const { User, News } = require('../models');
 
 const resolvers = {
     Query: {
@@ -9,6 +9,19 @@ const resolvers = {
                 return User.findOne({ _id: context.user._id });
             }
             throw new AuthenticationError('You need to be logged in!');
+        },
+        // get News from the News collection even if user is not logged in  
+        getNews: async (parent,args) => {
+            try {
+                console.log('getting news from Mongo DB'  );
+                // News holds an array of articles
+                const news = await News.find({});
+                console.log('news in DB is', news);
+                return news;
+            } catch (error) {
+                console.error('Error fetching news:', error);
+                return [];
+            }
         },
     },
     Mutation: {
@@ -61,6 +74,7 @@ const resolvers = {
             }
             throw new AuthenticationError('You need to be logged in!');
         },
+
     },
 };
 
