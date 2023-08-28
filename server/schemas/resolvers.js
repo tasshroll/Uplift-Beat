@@ -13,11 +13,11 @@ const resolvers = {
         // get News from the News collection even if user is not logged in  
         getNews: async (parent,args) => {
             try {
-                console.log('getting news from Mongo DB'  );
+                console.log('***** getting news from Mongo DB'  );
                 // News holds a variable news which is an array of articles
                 const newsDoc = await News.findOne();
                 const news = newsDoc ? newsDoc.news : [];
-                console.log('news in DB is', newsDoc);
+                console.log('news in DB is', news);
                 return news;
             } catch (error) {
                 console.error('Error fetching news:', error);
