@@ -40,7 +40,9 @@ const startApolloServer = async (typeDefs, resolvers) => {
   server.applyMiddleware({ app });
 
   db.once('open', async () => {
+    
     // seed the database with news articles from GNews API for the current day
+    console.log("In server.js - calling seedNews");
     await seedNews();
 
     app.listen(PORT, () => {

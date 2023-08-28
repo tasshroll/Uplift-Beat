@@ -1,3 +1,5 @@
+const connection = require('../config/connection');
+
 const fetch = require('node-fetch');
 const { v4: uuidv4 } = require('uuid');
 const currentDate = new Date().toISOString().slice(0, 10); // Get current date in YYYY-MM-DD format
@@ -10,7 +12,7 @@ const API_KEY = '83adf81aaa09ebebd6e2ced515d144b9';
 //const API_KEY =  '1739725f9b0f266db3eca565f23cc18b'; // Tif key 1
 //const API_KEY = 'b2836ccdc750cd6d94b3cb47a1460ce3'; // Tif key 2
 
-const { News } = require('../models/News'); // import News model
+const { News } = require('../models');
 
 
 // Function to delete old news articles
@@ -42,7 +44,7 @@ async function fetchNews(query) {
         const data = await response.json();
         console.log("data", data);
         const articles = data.articles.map(article => ({
-            uniqueId: uuidv4(),
+            uniqueId: article.url,
             description: article.description,
             image: article.image,
             link: article.url,
@@ -62,17 +64,20 @@ async function fetchNews(query) {
 async function seedNews() {
 
     try {
+        // Delete the collections if they exist
+        //await News.deleteMany({});
         // Delete all existing news articles
         await News.findOneAndUpdate({}, { $set: { news: [] } });
 
         // Fetch new articles
-        const articles = await fetchNews('uplifting');
+        const articles = await fetchNews('technology');
 
         // Find the existing News document or create a new one
         let newsDocument = await News.findOne();
         if (!newsDocument) {
             newsDocument = new News();
         }
+        console.log("newsDocument", newsDocument);
 
         // Update the news array with the fetched articles
         newsDocument.news = articles;
@@ -84,8 +89,6 @@ async function seedNews() {
     } catch (error) {
         console.error('Error updating news:', error);
     }
-
 }
-module.exports = {
-    seedNews: seedNews
-};
+
+module.exports = {seedNews};

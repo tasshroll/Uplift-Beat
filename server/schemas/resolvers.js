@@ -14,9 +14,10 @@ const resolvers = {
         getNews: async (parent,args) => {
             try {
                 console.log('getting news from Mongo DB'  );
-                // News holds an array of articles
-                const news = await News.find({});
-                console.log('news in DB is', news);
+                // News holds a variable news which is an array of articles
+                const newsDoc = await News.findOne();
+                const news = newsDoc ? newsDoc.news : [];
+                console.log('news in DB is', newsDoc);
                 return news;
             } catch (error) {
                 console.error('Error fetching news:', error);
