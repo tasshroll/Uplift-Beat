@@ -11,14 +11,14 @@ const resolvers = {
             throw new AuthenticationError('You need to be logged in!');
         },
         // get News from the News collection even if user is not logged in  
-        getNews: async (parent,args) => {
+        getNews: async () => {
             try {
                 console.log('***** getting news from Mongo DB'  );
                 // News holds a variable news which is an array of articles
                 const newsDoc = await News.findOne();
-                const news = newsDoc ? newsDoc.news : [];
-                console.log('news in DB is', news);
-                return news;
+                //const news = newsDoc ? newsDoc.news : [];
+                console.log('news in DB is', newsDoc);
+                return newsDoc;
             } catch (error) {
                 console.error('Error fetching news:', error);
                 return [];

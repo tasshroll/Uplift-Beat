@@ -39,13 +39,14 @@ export const SAVE_ARTICLE = gql`
         title
         image
         link
+        date
       }
     }
   }
 `;
 
 export const REMOVE_ARTICLE = gql`
-  mutation removeArticle($articleId: ID!) {
+  mutation removeArticle($articleId: String!) {
     removeArticle(articleId: $articleId) {
       _id
       username
@@ -56,6 +57,7 @@ export const REMOVE_ARTICLE = gql`
         title
         image
         link
+        date
       }
     }
   }

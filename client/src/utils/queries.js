@@ -15,4 +15,20 @@ export const GET_ME = gql`
       }
     }
   }
+  `;
+  
+  export const GET_NEWS = gql`
+  query getNews {
+    getNews {
+      news {
+        date
+        description
+        image
+        link
+        title
+        uniqueId
+      }
+      newsCount
+    }
+  }
 `;
