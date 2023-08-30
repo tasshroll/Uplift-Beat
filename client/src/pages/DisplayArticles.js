@@ -1,6 +1,4 @@
-// TODO correct this problem - when i click "Save Article" button, the article is saved
-// When I view saved articles, the article is there and when I go back to my home page, the article is still there but the
-// button below it shows "Save Article" instead of "Saved" 
+
 import React, { useState, useEffect } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
 
@@ -20,7 +18,6 @@ import { SAVE_ARTICLE } from '../utils/mutations';
 import { GET_NEWS } from '../utils/queries';
 
 import jwtDecode from 'jwt-decode';
-import Typewriter from 'typewriter-effect';
 
 import getRandomQuote from '../utils/quotes';
 import { Carousel } from 'react-bootstrap';
@@ -39,10 +36,11 @@ import Image9 from "../Assets/images/Image9.jpg"
 
 const DisplayArticles = () => {
 
-    // hooks and variables for saved articles
+    // these ids are retrrieved from localStorage when the page loads
     const [savedArticleIds, setsavedArticleIds] = useState(getSavedArticleIds());
+    console.log("savedArticleIds is", savedArticleIds);
 
-    // hook to save article ids to localStorage on component unmount
+    // saves article ids to localStorage on component unmount
     useEffect(() => {
         return () => {
             if (savedArticleIds) {
@@ -55,17 +53,15 @@ const DisplayArticles = () => {
     const [saveArticle] = useMutation(SAVE_ARTICLE);
 
 
-    /////////// state variables
+    // state variables
     // articles is an array of objects
     const [articles, setArticles] = useState([]);
     // count is the number of articles in the array
     const [count, setCount] = useState(0);
 
-
-    //////////// news 
-    // hook to fetch data from DB
+    // hook to fetch news from DB using GET_NEWS query
     const { loading, data } = useQuery(GET_NEWS);
-    console.log("client side news is", data);
+    //console.log("client side news is", data);
 
     // when news is fetched from DB (GET_ NEWS query), update articles and count
     useEffect(() => {
@@ -76,18 +72,9 @@ const DisplayArticles = () => {
         }
     }, [data]);
 
-    // Add a new useEffect to log the updated state after rendering
-    useEffect(() => {
-        console.log("articles after update:", articles);
-        console.log("count after update:", count);
-    }, [articles, count]);
-
-
     // isLoading is true when the app is fetching data from the API
     const [isLoading, setIsLoading] = useState(false);
     const [displayedArticleIds, setDisplayedArticleIds] = useState([]);
-
-
 
     // save article by its unique id
     const handlesaveArticle = async (uniqueId) => {
@@ -96,21 +83,16 @@ const DisplayArticles = () => {
         if (!token) {
             return false;
         }
-
         try {
             // call mutation to saveArticle to DB
             console.log("articleToSave is", articleToSave);
-
             const { __typename, ...articleData } = articleToSave;
-            const data = await saveArticle({ variables: { articleData } });
-            
 
-
-
-
-            //const data = await saveArticle({ variables: { articleData: { ...articleToSave } } });
-            console.log("data is", data);
-            setsavedArticleIds([...savedArticleIds, articleToSave.uniqueId]);
+            await saveArticle({ variables: { articleData } });
+            const updatedSavedArticleIds = [...savedArticleIds, articleToSave.uniqueId];
+            // add news article id to array
+            setsavedArticleIds(updatedSavedArticleIds);
+            saveArticleIds(updatedSavedArticleIds); // Update localStorage
             console.log("savedArticleIds is ", savedArticleIds);
 
         } catch (err) {
@@ -205,7 +187,7 @@ const DisplayArticles = () => {
     // page layout
     return (
         <>
-        
+
             <div className="text-light bg-dark p-5">
                 <Container className="text-center">
                     {username && <h1>Hello {username}!</h1>}

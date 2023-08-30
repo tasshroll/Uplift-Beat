@@ -109,8 +109,15 @@ const SavedArticles = () => {
   const handleRemoveArticle = async (e, articleId) => {
     e.preventDefault(); // Prevent the default navigation behavior
     try {
+      console.log("Removing article");
+      // call mutation to remove article 
       await removeArticle({ variables: { articleId } });
-      setSavedArticles(savedArticles.filter((article) => article.articleId !== articleId));
+
+      // Filter out the removed article 
+      const updatedSavedArticles = savedArticles.filter((article) => article.articleId !== articleId);
+      setSavedArticles(updatedSavedArticles);
+
+      // Remove article from localStorage
       removeArticleId(articleId);
     } catch (err) {
       console.error(err);
