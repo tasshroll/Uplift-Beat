@@ -128,6 +128,7 @@ const SavedArticles = () => {
     return <p>Loading...</p>;
   }
 
+  
   return (
     <Container>
       <h2 className="pt-5">

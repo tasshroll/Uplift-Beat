@@ -17,7 +17,7 @@ const resolvers = {
                 // News holds a variable news which is an array of articles
                 const newsDoc = await News.findOne();
                 //const news = newsDoc ? newsDoc.news : [];
-                console.log('news in DB is', newsDoc);
+                //console.log('news in DB is', newsDoc);
                 return newsDoc;
             } catch (error) {
                 console.error('Error fetching news:', error);
@@ -48,7 +48,7 @@ const resolvers = {
         },
 
         saveArticle: async (parent, { articleData }, context) => {
-            console.log('articleData', articleData)
+            console.log('In resolver - articleData saving to User model', articleData)
             if (context.user) {
                 const updatedUser = await User.findByIdAndUpdate(
                     { _id: context.user._id },

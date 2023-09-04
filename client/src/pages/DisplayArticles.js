@@ -15,7 +15,7 @@ import Auth from '../utils/auth';
 
 import { saveArticleIds, getSavedArticleIds } from '../utils/localStorage';
 import { SAVE_ARTICLE } from '../utils/mutations';
-import { GET_NEWS } from '../utils/queries';
+import { GET_ME, GET_NEWS } from '../utils/queries';
 
 import jwtDecode from 'jwt-decode';
 
@@ -33,27 +33,24 @@ import Image8 from "../Assets/images/Image8.jpg"
 import Image9 from "../Assets/images/Image9.jpg"
 
 
-
 const DisplayArticles = () => {
-
+    // THIS CODE CAN BE REMOVED - We took it from local storage when we
+    // fetched news from client side.  We are now fetching news from DB server side
     // these ids are retrrieved from localStorage when the page loads
     const [savedArticleIds, setsavedArticleIds] = useState(getSavedArticleIds());
-    console.log("savedArticleIds is", savedArticleIds);
+
 
     // saves article ids to localStorage on component unmount
-    useEffect(() => {
-        return () => {
-            if (savedArticleIds) {
-                saveArticleIds(savedArticleIds);
-            }
-        };
-    }, [savedArticleIds]);
-
-    // initialize the mutation to save article to DB 
-    const [saveArticle] = useMutation(SAVE_ARTICLE);
+    // useEffect(() => {
+    //     return () => {
+    //         if (savedArticleIds) {
+    //             saveArticleIds(savedArticleIds);
+    //         }
+    //     };
+    // }, [savedArticleIds]);
 
 
-    // state variables
+    ///////   GET NEWS FROM DB ////////
     // articles is an array of objects
     const [articles, setArticles] = useState([]);
     // count is the number of articles in the array
@@ -71,29 +68,60 @@ const DisplayArticles = () => {
             setCount(data.getNews.newsCount);
         }
     }, [data]);
+    //////////////////////////////////////////
+
+
 
     // isLoading is true when the app is fetching data from the API
     const [isLoading, setIsLoading] = useState(false);
-    const [displayedArticleIds, setDisplayedArticleIds] = useState([]);
+
+    //////////////////////////////////////////////////////////
+    // Get Saved Articles if user is logged in
+    //////////////////////////////////////////////////////////
+
+    // initialize the mutation to save article to DB 
+    const [saveArticle] = useMutation(SAVE_ARTICLE);
+
+    const [savedArticles, setSavedArticles] = useState([]);
+    // get saved articles from DB
+    const { userLoading, userData } = useQuery(GET_ME);
+
+    useEffect(() => {
+        if (userData && userData.me && Auth.loggedIn()) {
+            setSavedArticles(data.me.savedArticles);
+
+            // update array of saved article ids
+            // if current article id is in array of saved articles, then true, else false
+            setsavedArticleIds(
+                data.me.savedArticles.map((saved) => 
+                   (saved.uniqueId === articles.uniqueId)));
+        } else {
+            setSavedArticles([]);
+        };
+    }, [userData]);
+    console.log("savedArticleIds is", savedArticleIds);
+
+
 
     // save article by its unique id
     const handlesaveArticle = async (uniqueId) => {
         const articleToSave = articles.find((article) => article.uniqueId === uniqueId);
         const token = Auth.loggedIn() ? Auth.getToken() : null;
+        console.log("token is", token);
         if (!token) {
             return false;
         }
         try {
             // call mutation to saveArticle to DB
-            console.log("articleToSave is", articleToSave);
+            console.log("***** articleToSave is", articleToSave);
             const { __typename, ...articleData } = articleToSave;
-
             await saveArticle({ variables: { articleData } });
+            // 
             const updatedSavedArticleIds = [...savedArticleIds, articleToSave.uniqueId];
             // add news article id to array
             setsavedArticleIds(updatedSavedArticleIds);
             saveArticleIds(updatedSavedArticleIds); // Update localStorage
-            console.log("savedArticleIds is ", savedArticleIds);
+            console.log("****** savedArticleIds is ", savedArticleIds);
 
         } catch (err) {
             console.error(err);
@@ -121,7 +149,7 @@ const DisplayArticles = () => {
     useEffect(() => {
         const token = localStorage.getItem('id_token');
 
-        if (token) {
+        if (Auth.loggedIn() && token) {
             try {
 
                 const decodedToken = jwtDecode(token);
@@ -184,6 +212,7 @@ const DisplayArticles = () => {
     if (loading) {
         return <p>Loading...</p>;
     }
+
     // page layout
     return (
         <>
@@ -255,6 +284,11 @@ const DisplayArticles = () => {
                                                 <Card.Body>
                                                     <Card.Title style={styles.title}>{news.title}</Card.Title>
                                                     <Card.Text>{news.description}</Card.Text>
+
+                                                    {/* if user is logged in, display buttons under each article
+                                                        display "Saved" button if article.uniqueId is in array of user saved articles, 
+                                                        else display "Save Article" button */}
+
                                                     {Auth.loggedIn() && (
                                                         <Button
                                                             disabled={savedArticleIds?.some((id) => id === news.uniqueId)}

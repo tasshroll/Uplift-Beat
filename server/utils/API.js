@@ -42,7 +42,7 @@ async function fetchNews(query) {
 
         const response = await fetch(`https://gnews.io/api/v4/search?q=${query}%20news&from=${currentDate}&to=${currentDate}&lang=en&token=${API_KEY}&max=9`);
         const data = await response.json();
-        console.log("data", data);
+        //console.log("data", data);
         const articles = data.articles.map(article => ({
             uniqueId: article.url,
             description: article.description,
@@ -51,7 +51,7 @@ async function fetchNews(query) {
             title: article.title,
             date: article.publishedAt,
         }));
-        console.log("articles are", articles);
+        //console.log("articles are", articles);
 
         return articles;
     } catch (error) {
