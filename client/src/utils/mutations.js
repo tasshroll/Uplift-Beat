@@ -45,6 +45,19 @@ export const SAVE_ARTICLE = gql`
   }
 `;
 
+export const REMOVE_ARTICLE3 = gql`
+  mutation removeArticle($uniqueId: String!) {
+    removeArticle(articleId: $uniqueId) {
+      _id
+      username
+      email
+      savedArticles {
+        uniqueId
+      }
+    }
+  }
+`;
+
 export const REMOVE_ARTICLE = gql`
   mutation removeArticle($articleId: String!) {
     removeArticle(articleId: $articleId) {

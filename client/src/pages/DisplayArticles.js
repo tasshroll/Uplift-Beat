@@ -82,7 +82,6 @@ const DisplayArticles = () => {
             setsavedArticleIds(userData.data?.me.savedArticles.map((saved) => saved.uniqueId));
             // Update localStorage
             saveArticleIds(savedArticleIds);
-
         };
     }, [savedArticleIds, userData]);
 
@@ -98,16 +97,19 @@ const DisplayArticles = () => {
         }
         try {
             // call mutation to saveArticle to DB
-            console.log("***** articleToSave is", articleToSave);
             const { __typename, ...articleData } = articleToSave;
+            console.log("Before saving article...");
+
             await saveArticle({ variables: { articleData } });
-            // 
+            console.log("After saving article...");
             const updatedSavedArticleIds = [...savedArticleIds, articleToSave.uniqueId];
+            console.log("****** updatedSavedArticleIds is ", updatedSavedArticleIds);
             // add news article id to array
             setsavedArticleIds(updatedSavedArticleIds);
-            saveArticleIds(updatedSavedArticleIds); // Update localStorage
+            // Update localStorage
+            saveArticleIds(updatedSavedArticleIds); 
             console.log("****** savedArticleIds is ", savedArticleIds);
-
+//savedArticleIds
         } catch (err) {
             console.error(err);
         }
