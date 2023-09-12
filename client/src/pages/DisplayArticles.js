@@ -34,20 +34,17 @@ import Image9 from "../Assets/images/Image9.jpg"
 
 
 const DisplayArticles = () => {
-    // THIS CODE CAN BE REMOVED - We took it from local storage when we
-    // fetched news from client side.  We are now fetching news from DB server side
-    // these ids are retrrieved from localStorage when the page loads
+
+    // Get saved article ids from localStorage when the page loads
     const [savedArticleIds, setsavedArticleIds] = useState(getSavedArticleIds());
 
 
-    // saves article ids to localStorage on component unmount
+    // // saves article ids to localStorage on component unmount
     // useEffect(() => {
-    //     return () => {
-    //         if (savedArticleIds) {
-    //             saveArticleIds(savedArticleIds);
-    //         }
-    //     };
-    // }, [savedArticleIds]);
+
+
+
+    // });
 
 
     ///////   GET NEWS FROM DB ////////
@@ -63,7 +60,7 @@ const DisplayArticles = () => {
     // when news is fetched from DB (GET_ NEWS query), update articles and count
     useEffect(() => {
         if (data) {
-            console.log("data is", data);
+            // console.log("data is", data);
             setArticles(data.getNews.news);
             setCount(data.getNews.newsCount);
         }
@@ -82,24 +79,21 @@ const DisplayArticles = () => {
     // initialize the mutation to save article to DB 
     const [saveArticle] = useMutation(SAVE_ARTICLE);
 
-    const [savedArticles, setSavedArticles] = useState([]);
     // get saved articles from DB
-    const { userLoading, userData } = useQuery(GET_ME);
-
+    const userData = useQuery(GET_ME);
+    const savedUserId = userData.data?.me || {};
     useEffect(() => {
-        if (userData && userData.me && Auth.loggedIn()) {
-            setSavedArticles(data.me.savedArticles);
-
+        if (userData.data?.me.savedArticles !== undefined && Auth.loggedIn()) {
+            // console.log(typeof savedUserId.savedArticles);
+            // Get saved Articles from Database
+            localStorage.setItem('saved_articles', JSON.stringify(savedUserId.savedArticles?.map((saved) => saved.uniqueId)));
             // update array of saved article ids
-            // if current article id is in array of saved articles, then true, else false
-            setsavedArticleIds(
-                data.me.savedArticles.map((saved) => 
-                   (saved.uniqueId === articles.uniqueId)));
-        } else {
-            setSavedArticles([]);
+            setsavedArticleIds(userData.data?.me.savedArticles.map((saved) => saved.uniqueId));
+            // Update localStorage
+            saveArticleIds(savedArticleIds)
         };
-    }, [userData]);
-    console.log("savedArticleIds is", savedArticleIds);
+    }, [savedArticleIds, userData]);
+    // console.log("Line 104 affter useEffect, savedArticleIds is", savedArticleIds);
 
 
 
@@ -135,7 +129,6 @@ const DisplayArticles = () => {
 
     // display current date on page
     const [currentDate, setCurrentDate] = useState('');
-
     useEffect(() => {
         const today = new Date();
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -143,9 +136,9 @@ const DisplayArticles = () => {
         setCurrentDate(formattedDate);
     }, []);
 
-    const [username, setUsername] = useState('');
 
-    // get username from token
+    // get username from token and display on page
+    const [username, setUsername] = useState('');
     useEffect(() => {
         const token = localStorage.getItem('id_token');
 
@@ -226,12 +219,12 @@ const DisplayArticles = () => {
             <div style={{ ...styles.background, paddingTop: '20px' }} className="mt-0">
                 <Container >
                     <div  >
-                        <Carousel slide={false} interval={7000}>
+                        <Carousel slide={false} interval={6000}>
 
                             <Carousel.Item style={{
                                 maxWidth: '100%', maxHeight: '200px'
                             }}>
-                                <img src={randomImage()} alt="Second slide" />
+                                <img src={randomImage()} alt="First slide" />
                                 <Carousel.Caption>
                                     <h3 style={styles.quote}>{getRandomQuote()}</h3>
                                 </Carousel.Caption>
@@ -251,7 +244,7 @@ const DisplayArticles = () => {
                             <Carousel.Item style={{
                                 maxWidth: '100%', maxHeight: '200px'
                             }}>
-                                <img src={randomImage()} alt="Second slide" />
+                                <img src={randomImage()} alt="Third slide" />
                                 <Carousel.Caption>
                                     <h3 style={styles.quote}>{getRandomQuote()}</h3>
                                 </Carousel.Caption>
@@ -270,7 +263,6 @@ const DisplayArticles = () => {
                     <Row>
 
                         {articles && articles.length > 0 ? (
-
 
                             articles.map((news) => {
                                 return (
