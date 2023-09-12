@@ -38,15 +38,6 @@ const DisplayArticles = () => {
     // Get saved article ids from localStorage when the page loads
     const [savedArticleIds, setsavedArticleIds] = useState(getSavedArticleIds());
 
-
-    // // saves article ids to localStorage on component unmount
-    // useEffect(() => {
-
-
-
-    // });
-
-
     ///////   GET NEWS FROM DB ////////
     // articles is an array of objects
     const [articles, setArticles] = useState([]);
@@ -68,7 +59,6 @@ const DisplayArticles = () => {
     //////////////////////////////////////////
 
 
-
     // isLoading is true when the app is fetching data from the API
     const [isLoading, setIsLoading] = useState(false);
 
@@ -78,6 +68,7 @@ const DisplayArticles = () => {
 
     // initialize the mutation to save article to DB 
     const [saveArticle] = useMutation(SAVE_ARTICLE);
+
 
     // get saved articles from DB
     const userData = useQuery(GET_ME);
@@ -90,10 +81,10 @@ const DisplayArticles = () => {
             // update array of saved article ids
             setsavedArticleIds(userData.data?.me.savedArticles.map((saved) => saved.uniqueId));
             // Update localStorage
-            saveArticleIds(savedArticleIds)
+            saveArticleIds(savedArticleIds);
+
         };
     }, [savedArticleIds, userData]);
-    // console.log("Line 104 affter useEffect, savedArticleIds is", savedArticleIds);
 
 
 
@@ -202,9 +193,39 @@ const DisplayArticles = () => {
             marginBottom: '10px'
         },
     };
-    if (loading) {
-        return <p>Loading...</p>;
-    }
+    // if (loading) {
+    //     return <p>Loading...</p>;
+    // }
+
+    // Define a state variable to keep track of the current slide index
+    const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
+
+    // Define a function to advance to the next slide
+    const nextSlide = () => {
+        setCurrentSlideIndex((prevIndex) => (prevIndex + 1) % numberOfSlides);
+    };
+
+    // Define the number of slides in  Carousel
+    const numberOfSlides = 3; 
+
+    // automatically advance the slide with a delay of 8 seconds
+    useEffect(() => {
+        const slideInterval = setInterval(nextSlide, 8000); 
+        return () => clearInterval(slideInterval); // Cleanup when the component unmounts
+    }, []);
+
+    // get random quote
+    const [currentQuote, setCurrentQuote] = useState();
+
+    // update quote every 8 seconds
+    useEffect(() => {
+        const quoteInterval = setInterval(() => {
+            setCurrentQuote(getRandomQuote());  
+        }, 8000); 
+
+        // clean the interval when component unmounts
+        return () => clearInterval(quoteInterval);
+    }, []);
 
     // page layout
     return (
@@ -219,14 +240,16 @@ const DisplayArticles = () => {
             <div style={{ ...styles.background, paddingTop: '20px' }} className="mt-0">
                 <Container >
                     <div  >
-                        <Carousel slide={false} interval={6000}>
+                        <Carousel activeIndex={currentSlideIndex} onSelect={() => { }}>
+
+                            {/* <Carousel slide={false} interval={6000}> */}
 
                             <Carousel.Item style={{
                                 maxWidth: '100%', maxHeight: '200px'
                             }}>
                                 <img src={randomImage()} alt="First slide" />
                                 <Carousel.Caption>
-                                    <h3 style={styles.quote}>{getRandomQuote()}</h3>
+                                    <h3 style={styles.quote}>{currentQuote}</h3>
                                 </Carousel.Caption>
                             </Carousel.Item>
 
@@ -236,7 +259,7 @@ const DisplayArticles = () => {
                             }}>
                                 <img src={randomImage()} alt="Second slide" />
                                 <Carousel.Caption>
-                                    <h3 style={styles.quote}>{getRandomQuote()}</h3>
+                                    <h3 style={styles.quote}>{currentQuote}</h3>
                                 </Carousel.Caption>
                             </Carousel.Item>
 
@@ -246,7 +269,7 @@ const DisplayArticles = () => {
                             }}>
                                 <img src={randomImage()} alt="Third slide" />
                                 <Carousel.Caption>
-                                    <h3 style={styles.quote}>{getRandomQuote()}</h3>
+                                    <h3 style={styles.quote}>{currentQuote}</h3>
                                 </Carousel.Caption>
                             </Carousel.Item>
 

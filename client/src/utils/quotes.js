@@ -60,6 +60,7 @@ const quotes = [
 
   function getRandomQuote() {
     const randomIndex = Math.floor(Math.random() * quotes.length);
+    console.log("Getting quote")
     return quotes[randomIndex];
   }
 
