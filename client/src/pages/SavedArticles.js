@@ -9,12 +9,11 @@ import {
   Row,
 } from 'react-bootstrap';
 
-import { saveArticleIds, getSavedArticleIds } from '../utils/localStorage';
+import { removeArticleId, getSavedArticleIds } from '../utils/localStorage';
 
 import { GET_ME } from '../utils/queries';
 import { REMOVE_ARTICLE } from '../utils/mutations';
 import Auth from '../utils/auth';
-import { removeArticleId } from '../utils/localStorage';
 
 const SavedArticles = () => {
   const [savedArticles, setSavedArticles] = useState([]);
