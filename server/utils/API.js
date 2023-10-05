@@ -6,7 +6,7 @@ const currentDate = new Date().toISOString().slice(0, 10); // Get current date i
 // import .env fifle
 // import "../../.env";
 
-// several keys are in .env file
+// four keys are in .env file that are for the GNews API
 require('dotenv').config();
 const API_KEY = process.env.REACT_APP_API_KEY;
 
