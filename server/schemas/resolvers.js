@@ -69,6 +69,7 @@ const resolvers = {
             if (context.user) {
                 const updatedUser = await User.findByIdAndUpdate(
                     { _id: context.user._id },
+                    // remove the article based on its unique ID
                     { $pull: { savedArticles: { uniqueId : articleId } } },
                     { new: true }
                 );
