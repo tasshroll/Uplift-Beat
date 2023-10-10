@@ -1,7 +1,7 @@
-const connection = require('../config/connection');
-const { News } = require('../models');
+const connection = require('../server/config/connection');
+const { News } = require('../server/models');
 // require API.js
-const fetchNews = require('./API')
+const fetchNews = require('../server/utils/API')
 
 // const getRandomName = require('./data');
 
@@ -39,7 +39,7 @@ connection.once('open', async () => {
     await newsDocument.save();
     await News.collection.insertMany(newsDocument);
 
-    console.log('News updated successfully!');
+    console.log('Inside seed.js News updated successfully!');
 
 
     process.exit(0);

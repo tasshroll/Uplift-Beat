@@ -48,7 +48,7 @@ const resolvers = {
         },
 
         saveArticle: async (parent, { articleData }, context) => {
-            console.log('In resolver - articleData saving to User model', articleData)
+            //console.log('In resolver - articleData saving to User model', articleData)
             if (context.user) {
                 const updatedUser = await User.findByIdAndUpdate(
                     { _id: context.user._id },

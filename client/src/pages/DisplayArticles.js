@@ -45,7 +45,9 @@ const DisplayArticles = () => {
     const [count, setCount] = useState(0);
 
     // hook to fetch news from DB using GET_NEWS query
-    const { loading, data } = useQuery(GET_NEWS);
+   // const { loading, data } = useQuery(GET_NEWS);
+    const { data } = useQuery(GET_NEWS);
+
     //console.log("client side news is", data);
 
     // when news is fetched from DB (GET_ NEWS query), update articles and count
@@ -216,13 +218,15 @@ const DisplayArticles = () => {
         return () => clearInterval(slideInterval); // Cleanup when the component unmounts
     }, []);
 
-    // get random quote
+    // state to hold current quote and image
     const [currentQuote, setCurrentQuote] = useState();
+    const [backgroundImage, setRandomImage] = useState();
 
-    // update quote every 8 seconds
+    // update quote and image every 8 seconds
     useEffect(() => {
         const quoteInterval = setInterval(() => {
             setCurrentQuote(getRandomQuote());  
+            setRandomImage(randomImage());
         }, 8000); 
 
         // clean the interval when component unmounts
@@ -249,7 +253,7 @@ const DisplayArticles = () => {
                             <Carousel.Item style={{
                                 maxWidth: '100%', maxHeight: '200px'
                             }}>
-                                <img src={randomImage()} alt="First slide" />
+                                <img src={backgroundImage} alt="First slide" />
                                 <Carousel.Caption>
                                     <h3 style={styles.quote}>{currentQuote}</h3>
                                 </Carousel.Caption>
@@ -259,7 +263,7 @@ const DisplayArticles = () => {
                             <Carousel.Item style={{
                                 maxWidth: '100%', maxHeight: '200px'
                             }}>
-                                <img src={randomImage()} alt="Second slide" />
+                                <img src={backgroundImage} alt="Second slide" />
                                 <Carousel.Caption>
                                     <h3 style={styles.quote}>{currentQuote}</h3>
                                 </Carousel.Caption>
@@ -269,7 +273,7 @@ const DisplayArticles = () => {
                             <Carousel.Item style={{
                                 maxWidth: '100%', maxHeight: '200px'
                             }}>
-                                <img src={randomImage()} alt="Third slide" />
+                                <img src={backgroundImage} alt="Third slide" />
                                 <Carousel.Caption>
                                     <h3 style={styles.quote}>{currentQuote}</h3>
                                 </Carousel.Caption>
