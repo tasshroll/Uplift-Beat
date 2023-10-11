@@ -194,7 +194,7 @@ const DisplayArticles = () => {
             height: '100%',
             display: 'flex',
             flexDirection: 'column',
-            marginBottom: '10px'
+            marginBottom: '10px',
         },
     };
     // if (loading) {

@@ -32,13 +32,17 @@ async function deleteOldNews() {
 // Schedule the deletion process to run daily
 setInterval(deleteOldNews, 24 * 60 * 60 * 1000); // Run every 24 hours (adjust as needed)
 
-
+// 10 articles per fetch, 1 req per sec, 100 req per day
 async function fetchNews(query) {
     try {
+        const upliftKeywords = ['uplift', 'motivate', 'encouraging', 'promising', 'happy', 'good', 'bright', 'hopeful', 'good news', 'welcome', 'positive', 'charity', 'faith', 'love', 'kindness', 'charity'];
+        //'charity', 'positive', 'reaffirm', 'love', 'kindness', 'virtue', 'charity', 'compassion', 'empathy', 'sympathy', 'benevolence', 'altruism', 'humanity'];
+        
+        const fullQuery = query + ' AND (' + upliftKeywords.join(' OR ') + ')';
 
-        const response = await fetch(`https://gnews.io/api/v4/search?q=${query}%20news&from=${currentDate}&to=${currentDate}&lang=en&token=${API_KEY}&max=18`);
+        const response = await fetch(`https://gnews.io/api/v4/search?q=${fullQuery}%20news&from=${currentDate}&to=${currentDate}&lang=en&token=${API_KEY}&max=9`);
         const data = await response.json();
-        console.log("data", data);
+        //console.log("data", data);
         const articles = data.articles.map(article => ({
             uniqueId: article.url,
             description: article.description,
@@ -47,7 +51,6 @@ async function fetchNews(query) {
             title: article.title,
             date: article.publishedAt,
         }));
-        //console.log("articles are", articles);
 
         return articles;
     } catch (error) {
@@ -58,15 +61,22 @@ async function fetchNews(query) {
 
 // fetch new articles from API and store in News collection
 async function seedNews() {
-
+    const queries = ['technology', 'education', 'health', 'entertainment', 'nation'];
+    //'world', 'sports', 'business', 'science'];
     try {
-        // Delete the collections if they exist
-        //await News.deleteMany({});
         // Delete all existing news articles
         await News.findOneAndUpdate({}, { $set: { news: [] } });
 
-        // Fetch new articles
-        const articles = await fetchNews('technology');
+        // Fetch new articles in the areas of technology, education, and health
+        // call fetchNews 3 times to get 27 articles. 
+        let articles = [];
+        for (let i = 0; i < queries.length; i++) {
+            console.log(queries[i]); // This will output 4
+            const news = await fetchNews(queries[i]);
+            articles = articles.concat(news); // add the articles to the array
+            await new Promise(resolve => setTimeout(resolve, 1000)); // Wait for 1 second
+
+        }
 
         // Find the existing News document or create a new one
         let newsDocument = await News.findOne();
@@ -79,11 +89,12 @@ async function seedNews() {
 
         // Save the updated News document
         await newsDocument.save();
-
-        console.log('News updated successfully!');
+        console.log('newsDocument is', newsDocument);
+        //console.log('News in DB updated successfully!');
+        
     } catch (error) {
         console.error('Error updating news:', error);
     }
 }
 
-module.exports = {seedNews};
+module.exports = { seedNews };

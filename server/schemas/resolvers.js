@@ -16,7 +16,7 @@ const resolvers = {
                 console.log('***** getting news from Mongo DB'  );
                 // News holds a variable news which is an array of articles
                 const newsDoc = await News.findOne();
-                //const news = newsDoc ? newsDoc.news : [];
+                
                 //console.log('news in DB is', newsDoc);
                 return newsDoc;
             } catch (error) {
