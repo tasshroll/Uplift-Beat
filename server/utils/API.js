@@ -67,15 +67,12 @@ async function seedNews() {
         // Delete all existing news articles
         await News.findOneAndUpdate({}, { $set: { news: [] } });
 
-        // Fetch new articles in the areas of technology, education, and health
-        // call fetchNews 3 times to get 27 articles. 
         let articles = [];
         for (let i = 0; i < queries.length; i++) {
-            console.log(queries[i]); // This will output 4
             const news = await fetchNews(queries[i]);
             articles = articles.concat(news); // add the articles to the array
-            await new Promise(resolve => setTimeout(resolve, 1000)); // Wait for 1 second
-
+            // Wait for 1 sec since API has a rate limit of 1 request per second
+            await new Promise(resolve => setTimeout(resolve, 1000));
         }
 
         // Find the existing News document or create a new one
@@ -89,7 +86,6 @@ async function seedNews() {
 
         // Save the updated News document
         await newsDocument.save();
-        console.log('newsDocument is', newsDocument);
         //console.log('News in DB updated successfully!');
         
     } catch (error) {

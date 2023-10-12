@@ -48,8 +48,6 @@ const DisplayArticles = () => {
    // const { loading, data } = useQuery(GET_NEWS);
     const { data } = useQuery(GET_NEWS);
 
-    //console.log("client side news is", data);
-
     // when news is fetched from DB (GET_ NEWS query), update articles and count
     useEffect(() => {
         if (data) {
@@ -100,18 +98,14 @@ const DisplayArticles = () => {
         try {
             // call mutation to saveArticle to DB
             const { __typename, ...articleData } = articleToSave;
-            console.log("Before saving article...");
 
             await saveArticle({ variables: { articleData } });
-            console.log("After saving article...");
             const updatedSavedArticleIds = [...savedArticleIds, articleToSave.uniqueId];
-            console.log("****** updatedSavedArticleIds is ", updatedSavedArticleIds);
             // add news article id to array
             setsavedArticleIds(updatedSavedArticleIds);
             // Update localStorage
             saveArticleIds(updatedSavedArticleIds); 
-            console.log("****** savedArticleIds is ", savedArticleIds);
-//savedArticleIds
+            //console.log("****** savedArticleIds is ", savedArticleIds);
         } catch (err) {
             console.error(err);
         }
@@ -188,7 +182,7 @@ const DisplayArticles = () => {
             fontSize: "1.3rem",
         },
         background: {
-            backgroundColor: "#f0ebe1"
+            backgroundColor: "pink"
         },
         card: {
             height: '100%',
@@ -197,9 +191,6 @@ const DisplayArticles = () => {
             marginBottom: '10px',
         },
     };
-    // if (loading) {
-    //     return <p>Loading...</p>;
-    // }
 
     // Define a state variable to keep track of the current slide index
     const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
@@ -236,7 +227,6 @@ const DisplayArticles = () => {
     // page layout
     return (
         <>
-
             <div className="text-light bg-dark p-5">
                 <Container className="text-center">
                     {username && <h1>Hello {username}!</h1>}
