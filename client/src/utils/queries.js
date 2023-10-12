@@ -7,12 +7,28 @@ export const GET_ME = gql`
       username
       email
       savedArticles {
-        articleId
+        uniqueId
         description
         title
         image
         link
       }
+    }
+  }
+  `;
+  
+  export const GET_NEWS = gql`
+  query getNews {
+    getNews {
+      news {
+        date
+        description
+        image
+        link
+        title
+        uniqueId
+      }
+      newsCount
     }
   }
 `;

@@ -9,13 +9,19 @@ type User {
     articleCount : Int
     savedArticles : [Article]
     }
+type News {
+    _id : ID
+    news : [Article]
+    newsCount : Int
+    }
 
 type Article {
-    articleId : ID!
+    uniqueId : String!
     description : String
     title : String
     image : String
     link : String
+    date : String
     }
 
 type Auth {
@@ -26,20 +32,22 @@ type Auth {
 input ArticleInfo {
     description : String, 
     title : String, 
-    articleId : String, 
+    uniqueId : String, 
     image: String, 
     link: String
+    date: String
     }
 
 type Query {
     me: User
+    getNews : News
     }
 
 type Mutation {
     login (email : String, password : String) : Auth
     addUser(username : String, email: String, password: String) : Auth
     saveArticle(articleData: ArticleInfo!): User
-    removeArticle(articleId : ID) : User
+    removeArticle(articleId : String) : User
     }
 `;
 

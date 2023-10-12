@@ -1,5 +1,5 @@
 // Main server file for the application
-require("dotenv").config()
+require("dotenv").config();
 const express = require('express');
 const path = require('path');
 const db = require('./config/connection');
@@ -7,6 +7,8 @@ const { ApolloServer } = require('apollo-server-express');
 const { typeDefs, resolvers } = require('./schemas');
 const { authMiddleware } = require('./utils/auth');
 const cors = require('cors');
+// seed the database
+const {seedNews} = require('./utils/API');
 
 // Apollo server
 const server = new ApolloServer({
@@ -37,7 +39,11 @@ const startApolloServer = async (typeDefs, resolvers) => {
   await server.start();
   server.applyMiddleware({ app });
 
-  db.once('open', () => {
+  db.once('open', async () => {
+    
+    // seed the database with news articles from GNews API for the current day
+    await seedNews();
+
     app.listen(PORT, () => {
       console.log(`API server running on port ${PORT}!`);
       console.log(`Use GraphQL at http://localhost:${PORT}${server.graphqlPath}`);
@@ -47,3 +53,4 @@ const startApolloServer = async (typeDefs, resolvers) => {
 
 // start the server
 startApolloServer(typeDefs, resolvers); 
+

@@ -1,25 +1,20 @@
 # Uplift-Beat
-Stay in the Know-How with the Jolly Jounral News App! Get the latest updates on current events happening around the world with just a click. Our app lets users choose from a wide range of news categories, including General, Business, Entertainment, Health, Science, Sports, and Technology. Stay informed and up-to-date with the top headlines and articles on topics that interest you the most. Download our news app now and never miss out on important news again!
+Get the latest uplifting news on current events happening around the world with just a click. This app provides articles from many news sources in the areas of Technology, Business, World news, entertainment, health, and science. Stay informed and uplifted with up-to-date top headlines on topics that interest you the most.
 
 # Description
 
-Users must signup/login to explore articles and save articles in their news feed to read later. Users can like stories as well. Their articles are saved to the back end MongoDB.
+Users must signup/login to explore articles and save articles in their news feed to read later. Flagged articles are saved to the back end MongoDB.
 
-This app features a React front end serving the client great articles from https://newsapi.org/. The backend is a MongoDB database interfaced to GraphQL API built with Apollo Server. Node.js/Express.js powers the server.
+This app features a React front end serving the client great articles from Google News. https://gnews.io/. The backend is a MongoDB database interfaced to GraphQL API built with Apollo Server. Node.js/Express.js powers the server.
 
 # Git Hub Repository
 
-https://github.com/ethandanielsmall/jolly-journal
+https://github.com/tasshroll/Uplift-Beat
 
 # Deployed Application
 
 https://fast-brook-59696-a40083fa7f53.herokuapp.com/
 
-# Team Members
-Tifni Shroll
-Ethan Daniel Small
-Mubarak Abdulkadir
-Mario Inzuna
 
 # User Interface Concept
 
@@ -34,10 +29,12 @@ Mario Inzuna
 
 # Installation
 
-Run on Heroku
+1. Run on Heroku
+
+Development installs
 
 On the command line these steps can be taken to run the code in develop mode
-1. run npm i which will install all the dependencies specified in package.json file
+run npm i which will install all the dependencies specified in package.json file
 
 
     npm i react-router
@@ -47,3 +44,9 @@ On the command line these steps can be taken to run the code in develop mode
     npm i react-bootstrrap
     npm i typewriter-effect
     npm i react
+
+# Team Members
+Tifni Shroll
+Ethan Daniel Small
+Mubarak Abdulkadir
+Mario Inzuna

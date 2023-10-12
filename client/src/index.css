@@ -1,5 +1,7 @@
 body {
-  font-family: 'Courier New', Courier, monospace;
+  /* font-family: 'Courier New', Courier, monospace; */
+  font-family: 'Open Sans', Courier, monospace;
+
 }
 
 h1,
@@ -8,12 +10,35 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: 'Courier New', Courier, monospace;
+  /* font-family: 'Courier New', Courier, monospace; */
+  font-family: 'Open Sans', sans-serif;
+
+}
+
+.row {
+  --bs-gutter-y: 1.5rem; /* Adjust the value as needed for your desired space */
 }
 
 .small {
   font-weight: 300;
   font-style: italic;
+}
+
+.fade-in-text {
+  animation: fadeIn 8s ease-in-out; 
+  animation-fill-mode: forwards; /* Keep the final state after animation ends */
+  font-size: 2rem;
+  color: pink;
+  opacity: 0;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @media screen and (max-width: 992px) {

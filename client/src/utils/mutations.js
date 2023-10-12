@@ -34,28 +34,31 @@ export const SAVE_ARTICLE = gql`
       email
       articleCount
       savedArticles {
-        articleId
+        uniqueId
         description
         title
         image
         link
+        date
       }
     }
   }
 `;
 
+
 export const REMOVE_ARTICLE = gql`
-  mutation removeArticle($articleId: ID!) {
+  mutation removeArticle($articleId: String!) {
     removeArticle(articleId: $articleId) {
       _id
       username
       email
       savedArticles {
-        articleId
+        uniqueId
         description
         title
         image
         link
+        date
       }
     }
   }

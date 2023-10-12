@@ -1,16 +1,12 @@
 const { Schema } = require('mongoose');
 
 const articleSchema = new Schema({
-  authors: [
-    {
-      type: String,
-    },
-  ],
+
   description: {
     type: String,
     required: true,
   },
-  articleId: {
+  uniqueId: {
     type: String,
     required: true,
   },
@@ -24,6 +20,10 @@ const articleSchema = new Schema({
     type: String,
     required: true,
   },
+  date: {
+    type: Date,
+    default: Date.now,
+    }
 });
 
 module.exports = articleSchema;
