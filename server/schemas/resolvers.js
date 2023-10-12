@@ -13,7 +13,7 @@ const resolvers = {
         // get News from the News collection even if user is not logged in  
         getNews: async () => {
             try {
-                console.log('***** getting news from Mongo DB'  );
+                //console.log('***** getting news from Mongo DB'  );
                 // News holds a variable news which is an array of articles
                 const newsDoc = await News.findOne();
                 

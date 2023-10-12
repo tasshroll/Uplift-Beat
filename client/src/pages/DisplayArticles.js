@@ -91,7 +91,7 @@ const DisplayArticles = () => {
     const handlesaveArticle = async (uniqueId) => {
         const articleToSave = articles.find((article) => article.uniqueId === uniqueId);
         const token = Auth.loggedIn() ? Auth.getToken() : null;
-        console.log("token is", token);
+        //console.log("token is", token);
         if (!token) {
             return false;
         }

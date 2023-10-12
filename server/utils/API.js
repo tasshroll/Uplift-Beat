@@ -22,7 +22,7 @@ async function deleteOldNews() {
             { $pull: { news: { date: { $lt: thresholdDate.toISOString() } } } }
         );
 
-        console.log(`Deleted ${deleteResult.nModified} old news articles.`);
+        //console.log(`Deleted ${deleteResult.nModified} old news articles.`);
     } catch (error) {
         console.error('Error deleting old news articles:', error);
     }
@@ -36,7 +36,8 @@ async function fetchNews(query) {
     try {
         const upliftKeywords = ['uplift', 'motivate', 'encouraging', 'promising', 'happy', 'good', 'bright', 'hopeful', 'good news', 'welcome', 'positive', 'charity', 'faith', 'love', 'kindness', 'charity'];
         //'charity', 'positive', 'reaffirm', 'love', 'kindness', 'virtue', 'charity', 'compassion', 'empathy', 'sympathy', 'benevolence', 'altruism', 'humanity'];
-        
+        // using too many keywords breaks the API
+
         const fullQuery = query + ' AND (' + upliftKeywords.join(' OR ') + ')';
 
         const response = await fetch(`https://gnews.io/api/v4/search?q=${fullQuery}%20news&from=${currentDate}&to=${currentDate}&lang=en&token=${API_KEY}&max=9`);
@@ -62,6 +63,7 @@ async function fetchNews(query) {
 async function seedNews() {
     const queries = ['technology', 'education', 'health', 'entertainment', 'nation'];
     //'world', 'sports', 'business', 'science'];
+    // using too many news topics breaks the API
     try {
         // Delete all existing news articles
         await News.findOneAndUpdate({}, { $set: { news: [] } });

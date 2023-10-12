@@ -1,3 +1,4 @@
+// React component to display saved articles for logged in user
 import React, { useState, useEffect } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
 
@@ -20,8 +21,6 @@ const SavedArticles = () => {
 
   // Get saved article ids from localStorage when the page loads
   const [savedArticleIds, setsavedArticleIds] = useState(getSavedArticleIds());
-  //const { loading, data } = useQuery(GET_ME);
-
 
   // get saved articles from DB
   const userData = useQuery(GET_ME);
@@ -30,37 +29,28 @@ const SavedArticles = () => {
 
   const [removeArticle] = useMutation(REMOVE_ARTICLE);
 
-  //  if (userData.data?.me.savedArticles !== undefined && Auth.loggedIn()) {
   // Get saved articles from User collection in DB to display
   useEffect(() => {
     if (userData.data?.me.savedArticles !== undefined) {
 
       setSavedArticles(userData.data?.me.savedArticles);
-      console.log("Saved articles is: ", savedArticles);
+      //console.log("Saved articles is: ", savedArticles);
     }
   }, [userData], savedArticles);
-  // }, []);
 
 
   const handleRemoveArticle = async (e, articleId) => {
     e.preventDefault(); // Prevent the default navigation behavior
     try {
-      console.log("Removing article with id: ", articleId);
-
-      // const { __typename, ...articleData } = articleToSave ;
-      // await saveArticle({ variables: { articleData } });
-
-      //const { __typename, uniqueId } = articleToSave;
+      //console.log("Removing article with id: ", articleId);
 
       // call mutation to remove article 
       await removeArticle({ variables: { articleId } });
-      //  await saveArticle({ variables: { articleData } });
-
 
       // Filter out the removed article 
       const updatedSavedArticles = savedArticles.filter((article) => article.uniqueId !== articleId);
       setSavedArticles(updatedSavedArticles);
-      console.log("Updated saved articles is: ", updatedSavedArticles);
+      //console.log("Updated saved articles is: ", updatedSavedArticles);
 
       // Remove article from localStorage
       removeArticleId(articleId);
@@ -68,11 +58,6 @@ const SavedArticles = () => {
       console.error(err);
     }
   };
-
-  // if (loading) {
-  //   return <p>Loading...</p>;
-  // }
-
 
   return (
     <Container>

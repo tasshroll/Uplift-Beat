@@ -1,4 +1,7 @@
 
+// Quotes from https://www.goodhousekeeping.com/life/g26857386/best-positive-quotes/
+// Displayed on the home page
+
 const quotes = [
     "Friends are the family we choose.” — Jennifer Aniston",
     "My purpose: to lift your spirit and to motivate you.” — Mavis Staples",

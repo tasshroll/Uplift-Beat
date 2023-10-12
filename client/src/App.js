@@ -27,14 +27,14 @@ const authLink = setContext((_, { headers }) => {
     },
   };
 });
-console.log("authLink is ", authLink);
+//console.log("authLink is ", authLink);
 
 const client = new ApolloClient({
   link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
 });
 
-console.log("client is ", client);
+//console.log("client is ", client);
 
 function App() {
   return (
