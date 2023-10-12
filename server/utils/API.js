@@ -3,7 +3,6 @@ const connection = require('../config/connection');
 const fetch = require('node-fetch');
 const { v4: uuidv4 } = require('uuid');
 const currentDate = new Date().toISOString().slice(0, 10); // Get current date in YYYY-MM-DD format
-// import .env file
 
 // four keys are in .env file that are for the GNews API
 require('dotenv').config();

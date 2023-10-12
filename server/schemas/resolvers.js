@@ -65,7 +65,7 @@ const resolvers = {
 
         },
         removeArticle: async (parent, { articleId }, context) => {
-            console.log('In resolver - uniqueId removing from User model', articleId)
+            //console.log('In resolver - uniqueId removing from User model', articleId)
             if (context.user) {
                 const updatedUser = await User.findByIdAndUpdate(
                     { _id: context.user._id },
@@ -73,7 +73,7 @@ const resolvers = {
                     { $pull: { savedArticles: { uniqueId : articleId } } },
                     { new: true }
                 );
-                console.log('updatedUser after remove of article is', updatedUser);
+                //console.log('updatedUser after remove of article is', updatedUser);
                 return updatedUser;
             }
             throw new AuthenticationError('You need to be logged in!');
