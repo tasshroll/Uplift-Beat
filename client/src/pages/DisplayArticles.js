@@ -45,7 +45,7 @@ const DisplayArticles = () => {
     const [count, setCount] = useState(0);
 
     // hook to fetch news from DB using GET_NEWS query
-   // const { loading, data } = useQuery(GET_NEWS);
+    // const { loading, data } = useQuery(GET_NEWS);
     const { data } = useQuery(GET_NEWS);
 
     // when news is fetched from DB (GET_ NEWS query), update articles and count
@@ -104,7 +104,7 @@ const DisplayArticles = () => {
             // add news article id to array
             setsavedArticleIds(updatedSavedArticleIds);
             // Update localStorage
-            saveArticleIds(updatedSavedArticleIds); 
+            saveArticleIds(updatedSavedArticleIds);
             //console.log("****** savedArticleIds is ", savedArticleIds);
         } catch (err) {
             console.error(err);
@@ -201,11 +201,11 @@ const DisplayArticles = () => {
     };
 
     // Define the number of slides in  Carousel
-    const numberOfSlides = 3; 
+    const numberOfSlides = 3;
 
     // automatically advance the slide with a delay of 8 seconds
     useEffect(() => {
-        const slideInterval = setInterval(nextSlide, 8000); 
+        const slideInterval = setInterval(nextSlide, 8000);
         return () => clearInterval(slideInterval); // Cleanup when the component unmounts
     }, []);
 
@@ -215,10 +215,12 @@ const DisplayArticles = () => {
 
     // update quote and image every 8 seconds
     useEffect(() => {
+        setCurrentQuote(getRandomQuote());
+        setRandomImage(randomImage());
         const quoteInterval = setInterval(() => {
-            setCurrentQuote(getRandomQuote());  
+            setCurrentQuote(getRandomQuote());
             setRandomImage(randomImage());
-        }, 8000); 
+        }, 8000);
 
         // clean the interval when component unmounts
         return () => clearInterval(quoteInterval);
