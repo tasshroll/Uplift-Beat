@@ -1,3 +1,4 @@
+// Desc: API functions for fetching news articles from Google News API and updating the News collection
 const connection = require('../config/connection');
 
 const fetch = require('node-fetch');

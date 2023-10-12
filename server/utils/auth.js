@@ -1,3 +1,4 @@
+// Creates auth middleware function that will be passed to the Apollo Server at instantiation.
 const jwt = require('jsonwebtoken');
 
 const secret = 'mysecretssshhhhhhh';

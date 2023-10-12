@@ -1,3 +1,4 @@
+// Purpose: to save and remove article ids to/from local storage
 import decode from 'jwt-decode';
 
 class AuthService {

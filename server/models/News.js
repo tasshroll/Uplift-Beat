@@ -1,3 +1,4 @@
+// News model holds an array of articles
 const { Schema, model } = require('mongoose');
 const articleSchema = require('./Article');
 

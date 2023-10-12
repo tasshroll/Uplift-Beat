@@ -1,3 +1,4 @@
+// Purpose: to export the queries for use in the application
 import { gql } from '@apollo/client';
 
 export const GET_ME = gql`

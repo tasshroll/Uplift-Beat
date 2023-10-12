@@ -1,3 +1,4 @@
+// Purpose: Provide a form for users to log in to their account
 import React, { useState } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
 import { useMutation } from '@apollo/client';

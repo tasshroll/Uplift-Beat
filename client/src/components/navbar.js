@@ -1,4 +1,4 @@
-
+// Purpose: To display the navbar at the top of the page
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Navbar, Nav, Container, Modal, Tab } from 'react-bootstrap';

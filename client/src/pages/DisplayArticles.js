@@ -1,8 +1,8 @@
-
+// React component to display uplifting news articles from MongoDB
 import React, { useState, useEffect } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
 
-
+// React Bootstrap components
 import {
     Container,
     Col,
@@ -13,15 +13,17 @@ import {
 
 import Auth from '../utils/auth';
 
+// import functions to save and get article ids to/from localStorage and frorm backend
 import { saveArticleIds, getSavedArticleIds } from '../utils/localStorage';
 import { SAVE_ARTICLE } from '../utils/mutations';
 import { GET_ME, GET_NEWS } from '../utils/queries';
 
+// needed to decode token
 import jwtDecode from 'jwt-decode';
 
+// import function to get random quotes and images
 import getRandomQuote from '../utils/quotes';
 import { Carousel } from 'react-bootstrap';
-// import all images from public/images folder
 import Image1 from "../Assets/images/Image1.jpg"
 import Image2 from "../Assets/images/Image2.jpg"
 import Image3 from "../Assets/images/Image3.jpg"
@@ -69,7 +71,6 @@ const DisplayArticles = () => {
     // initialize the mutation to save article to DB 
     const [saveArticle] = useMutation(SAVE_ARTICLE);
 
-
     // get saved articles from DB
     const userData = useQuery(GET_ME);
     const savedUserId = userData.data?.me || {};
@@ -84,8 +85,6 @@ const DisplayArticles = () => {
             saveArticleIds(savedArticleIds);
         };
     }, [savedArticleIds, userData]);
-
-
 
     // save article by its unique id
     const handlesaveArticle = async (uniqueId) => {
@@ -333,6 +332,7 @@ const DisplayArticles = () => {
                             >
                                 Load More
                             </Button>
+                            /* Load More button doesn't do anything */
                         )
                     }
                 </Container >

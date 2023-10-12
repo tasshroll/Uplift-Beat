@@ -1,3 +1,4 @@
+// article schema defines the attributes of each article in the News collection
 const { Schema } = require('mongoose');
 
 const articleSchema = new Schema({

@@ -1,3 +1,4 @@
+// user collection contains user info and holds an array of a user's saved articles
 const { Schema, model } = require('mongoose');
 const bcrypt = require('bcrypt');
 const articleSchema = require('./Article');

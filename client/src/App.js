@@ -1,3 +1,4 @@
+// Desc: This is the main app file. It is the first file that is run when the app is started.
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
