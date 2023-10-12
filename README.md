@@ -2,10 +2,26 @@
 Get the latest uplifting news on current events happening around the world with just a click. This app provides articles from many news sources in the areas of Technology, Business, World news, entertainment, health, and science. Stay informed and uplifted with up-to-date top headlines on topics that interest you the most.
 
 # Description
+Full-stack MERN app that allows users to explore and read good, uplifting articles. Users must sign in i they are new to the app and provide their username, email and password. If they already have an account, then they must login to have the feature to save or remove articles in their account. Users are further motivated with a carousel of quotes from famous people. Uplift-Beat app is a performant and scalable multi-page application that fulfills a real-world need, with a focus on data and user demand.
 
-Users must signup/login to explore articles and save articles in their news feed to read later. Flagged articles are saved to the back end MongoDB.
+The front end features React and it is styled using React Bootstrap and custom CSS within each JavaScript page. The client utilizes the following queries and mutations:
 
-This app features a React front end serving the client great articles from Google News. https://gnews.io/. The backend is a MongoDB database interfaced to GraphQL API built with Apollo Server. Node.js/Express.js powers the server.
+    Queries: 
+    GET_ME, 
+    GET_NEWS  
+    
+    Mutations: 
+    LOGIN_USER, 
+    ADD_USER, 
+    SAVE_ARTICLE, 
+    REMOVE_ARTICLE
+
+    
+JSON Web Token (JWT) securely transmits username, email and password as a JSON object. This information can be verified and trusted because it is digitally signed. Authentication middleware works in the context of a GraphQL API.
+    
+The back retrieves recent articles from the RESTful API, Google News. https://gnews.io/. News and User Data are stored in a MongoDB database. The database interfaces to Apollo GraphQL built with Apollo Server. Node.js/Express.js powers the server and API. Apollo Server uses resolvers to handle the front end queries and mutations to interact with data in the database. 
+
+[![License](https://img.shields.io/badge/License-n/a-n/a.svg)](n/a)
 
 # Git Hub Repository
 
@@ -13,40 +29,53 @@ https://github.com/tasshroll/Uplift-Beat
 
 # Deployed Application
 
-https://fast-brook-59696-a40083fa7f53.herokuapp.com/
+https://uplift-beat-1ed3f823ed28.herokuapp.com/
 
+# Screenshot
 
-# User Interface Concept
-
-![app landing](./client/public/images/Jolly_Journal.png)
-
-![main landing](https://github.com/ethandanielsmall/jolly-journal/blob/main/client/public/images/project%203%20-%20main%20page.png?raw=true)
-![read later](https://github.com/ethandanielsmall/jolly-journal/assets/124843114/f1890398-7ff5-4483-a510-8ea44a7345ee)
-![saved articles](https://github.com/ethandanielsmall/jolly-journal/assets/124843114/645dbcad-a718-4b43-b070-498e6a949622)
-![login/signup page](https://github.com/ethandanielsmall/jolly-journal/assets/124843114/65f81cec-dbac-4708-84aa-74cdb600de75)
-
-[![License](https://img.shields.io/badge/License-n/a-n/a.svg)](n/a)
+<img src="./client/build/images/Uplift_Beat.png" alt="New" width ="500">
 
 # Installation
 
-1. Run on Heroku
+ Run the application by clicking: https://uplift-beat-1ed3f823ed28.herokuapp.com/
 
-Development installs
+ ```
+https://uplift-beat-1ed3f823ed28.herokuapp.com/
 
-On the command line these steps can be taken to run the code in develop mode
-run npm i which will install all the dependencies specified in package.json file
+ ```
 
+# Development
+
+On the command line in development type:
+
+```
+run npm i 
+
+```
+which will install all the dependencies specified in package.json file
+
+Some dependencies are:
 
     npm i react-router
     npm i dot-env
     npm i react-router-dom
     npm i @apollo/client
     npm i react-bootstrrap
-    npm i typewriter-effect
+    npm i fade-effect
     npm i react
 
-# Team Members
-Tifni Shroll
+    "npm run develop" will concurrently start the client and server
+
+# Author
+Tifni Shroll is sole author of Uplift_Beat. The original concept was from a group project called "Jolly Journal". Collaborators on Jolly Journal were: 
 Ethan Daniel Small
 Mubarak Abdulkadir
 Mario Inzuna
+
+Questions: Contact tasshrollj@gmail.com
+
+## Usage
+
+ User is prompted to Login/Signup. Once an account is made, user can save and remove articles from their account.
+
+ Future implementations: Allow users to "like" articles, allow users to comment on articles, allow users to search for additional articles by input on topic or keyword
